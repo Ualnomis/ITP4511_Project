@@ -10,14 +10,30 @@ package ict.bean;
  * @author 2689
  */
 public class EquipmentBean {
+    private int equipmentID;
+    private int stock;
     private String equipmentName;
     private String status;
     private String description;
     private String visibility;
-    private int equipmentId;
-    private int stock;
 
     public EquipmentBean() {
+    }
+
+    public int getEquipmentID() {
+        return equipmentID;
+    }
+
+    public void setEquipmentID(int equipmentID) {
+        this.equipmentID = equipmentID;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getEquipmentName() {
@@ -50,22 +66,6 @@ public class EquipmentBean {
 
     public void setVisibility(String visibility) {
         this.visibility = visibility;
-    }
-
-    public int getEquipmentId() {
-        return equipmentId;
-    }
-
-    public void setEquipmentId(int equipmentId) {
-        this.equipmentId = equipmentId;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
     
     

@@ -12,11 +12,12 @@ package ict.bean;
 public class UserBean {
     private String userId;
     private String name;
-    private String pw;
     private String role;
+    private String pw;
 
-    public UserBean() {}
-    
+    public UserBean() {
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -33,14 +34,6 @@ public class UserBean {
         this.name = name;
     }
 
-    public String getPw() {
-        return pw;
-    }
-
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
     public String getRole() {
         return role;
     }
@@ -48,6 +41,12 @@ public class UserBean {
     public void setRole(String role) {
         this.role = role;
     }
-    
-    
+
+    public String getPw() {
+        return pw;
+    }
+
+    public void setPw(String pw) {
+        this.pw = pw;
+    }
 }
