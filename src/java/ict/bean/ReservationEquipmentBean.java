@@ -12,6 +12,15 @@ package ict.bean;
 public class ReservationEquipmentBean {
     private int reservationID;
     private int equipmentID;
+    private int qty;
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
 
     public ReservationEquipmentBean() {
     }

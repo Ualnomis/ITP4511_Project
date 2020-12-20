@@ -10,7 +10,7 @@ package ict.bean;
  * @author 2689
  */
 public class UserBean {
-    private String userId;
+    private int userID;
     private String name;
     private String role;
     private String pw;
@@ -18,13 +18,14 @@ public class UserBean {
     public UserBean() {
     }
 
-    public String getUserId() {
-        return userId;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
+
 
     public String getName() {
         return name;

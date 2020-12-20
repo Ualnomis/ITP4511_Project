@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class ReservationBean {
     private int reservationID;
     private int submitUserID;
-    private LocalDate chekcoutDate;
+    private LocalDate checkoutDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
     private int approveUserID;
@@ -39,13 +39,14 @@ public class ReservationBean {
         this.submitUserID = submitUserID;
     }
 
-    public LocalDate getChekcoutDate() {
-        return chekcoutDate;
+    public LocalDate getCheckoutDate() {
+        return checkoutDate;
     }
 
-    public void setChekcoutDate(LocalDate chekcoutDate) {
-        this.chekcoutDate = chekcoutDate;
+    public void setCheckoutDate(LocalDate checkoutDate) {
+        this.checkoutDate = checkoutDate;
     }
+
 
     public LocalDate getDueDate() {
         return dueDate;

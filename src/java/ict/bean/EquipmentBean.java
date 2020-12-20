@@ -15,7 +15,7 @@ public class EquipmentBean {
     private String equipmentName;
     private String status;
     private String description;
-    private String visibility;
+    private boolean visibility;
 
     public EquipmentBean() {
     }
@@ -60,13 +60,11 @@ public class EquipmentBean {
         this.description = description;
     }
 
-    public String getVisibility() {
+    public boolean isVisibility() {
         return visibility;
     }
 
-    public void setVisibility(String visibility) {
+    public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }
-    
-    
 }
