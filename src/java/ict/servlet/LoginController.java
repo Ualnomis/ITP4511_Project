@@ -89,11 +89,11 @@ public class LoginController extends HttpServlet {
                     targetURL = "main.jsp";
                 }
             } else {
-                targetURL = "loginError.jsp";
+                targetURL = "login.jsp?error=true";
             }
 
         } else {
-            targetURL = "loginError.jsp";
+            targetURL = "login.jsp?error=true";
         }
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/" + targetURL);

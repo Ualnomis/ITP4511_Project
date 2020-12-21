@@ -5,6 +5,7 @@
  */
 package ict.servlet;
 
+import ict.bean.EquipmentBean;
 import ict.bean.UserBean;
 import ict.db.AssignmentDB;
 import java.io.IOException;
@@ -21,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author 2689
  */
-@WebServlet(name = "HandleUserServlet", urlPatterns = {"/handleUser"})
-public class HandleUserServlet extends HttpServlet {
+@WebServlet(name = "HandleEquipmentServlet", urlPatterns = {"/handleEquipment"})
+public class HandleEquipmentServlet extends HttpServlet {
 
     private AssignmentDB db;
 
@@ -50,59 +51,75 @@ public class HandleUserServlet extends HttpServlet {
 
         if ("list".equalsIgnoreCase(action)) {
             // call the query db to get retrieve for all customer 
-            ArrayList<UserBean> users = db.queryAllUser();
+            ArrayList<EquipmentBean> equipments = db.queryAllEquipment();
             // set the result into the attribute	 
-            request.setAttribute("users", users);
+            request.setAttribute("equipments", equipments);
             // redirect the result to the listCustomers.jsp
             RequestDispatcher rd;
-            rd = getServletContext().getRequestDispatcher("/accountManagement.jsp");
+            rd = getServletContext().getRequestDispatcher("/equipmentManagement.jsp");
             rd.forward(request, response);
         } else if ("delete".equalsIgnoreCase(action)) {
             // get parameter, id, from the request
             if (request.getParameter("id") != null) {
                 // call delete record method in the database
-                db.delUserRecord(Integer.parseInt(request.getParameter("id")));
+                db.delEquipmentRecord(Integer.parseInt(request.getParameter("id")));
                 // redirect the result to list action 
-                response.sendRedirect("handleUser?action=list");
-            }
-        } else if ("getEditUser".equalsIgnoreCase(action)) {
-            if (request.getParameter("id") != null) {
-                // call query db to get retrieve for a customer with the given id
-                UserBean ub = db.queryUserByID(Integer.parseInt(request.getParameter("id")));
-                // set the customer as attribute in request scope
-                request.setAttribute("editUser", ub);
-
-                RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/editUser.jsp");
-                rd.forward(request, response);
+                response.sendRedirect("handleEquipment?action=list");
             }
         } else if (action.equalsIgnoreCase("add")) {
-            if (db.addUserRecord(Integer.parseInt(request.getParameter("userID")), request.getParameter("userName"), request.getParameter("password"), request.getParameter("role"))) {
-                response.sendRedirect("handleUser?action=list");
-            } else {
-                response.sendRedirect("editUser.jsp?error=true");
+            int stock = Integer.parseInt(request.getParameter("stock"));
+            String status = "unavailable";
+            if (stock > 0) {
+                status = "available";
             }
-        } else if (action.equalsIgnoreCase("edit")) {
-            String password = request.getParameter("password");
-            String name = request.getParameter("userName");
-            String role = request.getParameter("role");
-            int id = Integer.parseInt(request.getParameter("userID"));
+            
+            if (db.addEquipmentRecord(request.getParameter("eName"), status, request.getParameter("eDesc"), stock, Boolean.parseBoolean(request.getParameter("visibility")))) {
+                response.sendRedirect("handleEquipment?action=list");
+            } else {
+                response.sendRedirect("editEquipment.jsp?error=true");
+            }
+        } else if ("getEditEquipment".equalsIgnoreCase(action)) {
+            if (request.getParameter("id") != null) {
+                // call query db to get retrieve for a customer with the given id
+                EquipmentBean bean = db.queryEquipmentByID(Integer.parseInt(request.getParameter("id")));
+                // set the customer as attribute in request scope
+                request.setAttribute("editEquipment", bean);
+
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/editEquipment.jsp");
+                rd.forward(request, response);
+            }
+        } else if ("edit".equalsIgnoreCase(action)) {
+            String eName = request.getParameter("eName")  != null ? request.getParameter("eName") : "";
+            String eDesc = request.getParameter("eDesc") != null ? request.getParameter("eDesc") : "";
+            int stock = Integer.parseInt(request.getParameter("stock"));
+            int id = Integer.parseInt(request.getParameter("id"));
+            boolean visibility = Boolean.parseBoolean(request.getParameter("visibility"));
+            String status = "unavailable";
+            if (stock > 0) {
+                status = "available";
+            }
             // call  editCustomer to update the database record
-            UserBean ub = new UserBean();
-            ub.setPw(password);
-            ub.setUserID(id);
-            ub.setName(name);
-            ub.setRole(role);
-            db.editUserRecord(ub);
-            // redirect the result to “list” action again
-            response.sendRedirect("handleUser?action=list");
+            EquipmentBean bean = new EquipmentBean();
+            bean.setEquipmentID(id);
+            bean.setEquipmentName(eName);
+            bean.setDescription(eDesc);
+            bean.setStatus(status);
+            bean.setStock(stock);
+            bean.setVisibility(visibility);
+            if (db.editEquipmentRecord(bean)) {
+                response.sendRedirect("handleEquipment?action=list");
+            } else {
+                response.sendRedirect("loginError.jsp?" + eDesc);
+            }
+            
         } else {
             PrintWriter out = response.getWriter();
             out.println("No such action!!!");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

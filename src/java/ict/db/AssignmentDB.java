@@ -555,7 +555,7 @@ public class AssignmentDB {
 
         try {
             cnnct = getConnection();
-            String preQueryStatement = "UPDATE Equipment SET equipment_name = ?, status = ?, description = ?, visibility = ?, stock = ? WHERE equipment_id = ?";
+            String preQueryStatement = "UPDATE Equipment SET equipment_name=?, status=?, description=?, visibility=?, stock=? WHERE equipment_id=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, eb.getEquipmentName());
             pStmnt.setString(2, eb.getStatus());
@@ -680,5 +680,116 @@ public class AssignmentDB {
             }
         }
         return (num == 1) ? true : false;
+    }
+
+    // list all user
+    public ArrayList<EquipmentBean> queryAllEquipment() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        UserBean userBean = null;
+        ArrayList<EquipmentBean> arraylist = new ArrayList<EquipmentBean>();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM Equipment";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                EquipmentBean eb = new EquipmentBean();
+                eb.setEquipmentID(rs.getInt(1));
+                eb.setEquipmentName(rs.getString(2));
+                eb.setStatus(rs.getString(3));
+                eb.setDescription(rs.getString(4));
+                eb.setStock(rs.getInt(5));
+                eb.setVisibility(rs.getBoolean(6));
+                arraylist.add(eb);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return arraylist;
+    }
+    
+    // del equipment record
+    public boolean delEquipmentRecord(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int num = 0;
+        try {
+            cnnct = getConnection();
+            String sql = "SET foreign_key_checks = 0";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.executeUpdate();
+            String preQueryStatement = "DELETE FROM Equipment WHERE equipment_id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, id);
+            num = pStmnt.executeUpdate();
+            sql = "SET foreign_key_checks = 1";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.executeUpdate();
+
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+        return (num == 1) ? true : false;
+    }
+    
+    // queryEquipmentByID
+    public EquipmentBean queryEquipmentByID(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        EquipmentBean eb = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM Equipment WHERE equipment_id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            pStmnt.setInt(1, id);
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                eb = new EquipmentBean();
+                eb.setEquipmentID(rs.getInt(1));
+                eb.setEquipmentName(rs.getString(2));
+                eb.setStatus(rs.getString(3));
+                eb.setDescription(rs.getString(4));
+                eb.setStock(rs.getInt(5));
+                eb.setVisibility(rs.getBoolean(6));
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return eb;
     }
 }

@@ -4,21 +4,13 @@
 <jsp:useBean id="editUser" class="ict.bean.UserBean" scope="request"/>
 <%
     String type = editUser.getUserID() > 0 ? "edit" : "add";
-%>
 
-<%
     String id = editUser.getUserID() > 0 ? editUser.getUserID() + "" : "";
-%>
 
-<%
     String name = editUser.getName() != null ? editUser.getName() : "";
-%>
-
-<%
+    
     String password = editUser.getPw() != null ? editUser.getPw() : "";
-%>
-
-<%
+    
     String role = editUser.getRole() != null ? editUser.getRole() : "";
 %>
 <section id="edit-user">
@@ -35,11 +27,18 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="handleUserEdit">
+                    <form method="post" action="handleUser">
                         <input type="hidden" name="action"  value="<%=type%>" />
+                        <%
+                            String error = request.getParameter("error");
+                            if ("true".equals(error)) {
+                                out.println("User ID exist");
+                                out.println("<br />");
+                            }
+                        %>
                         <div class="mb-3">
                             <label for="userID" class="form-label">User ID</label>
-                            <input type="text" class="form-control" id="userID" name="userID" value="<%= id%>"/>
+                            <input type="text" class="form-control" id="userID" name="userID" value="<%= id%>" <% if (type.equals("edit")) { out.println("disabled"); } %>/>
                         </div>
                         <div class="mb-3">
                             <label for="userName" class="form-label">User Name</label>

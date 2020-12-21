@@ -34,7 +34,27 @@
             </nav>
         </section>
         <% } else if ("Technician".equals(user.getRole())) { %>
-        test
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">IVPET Equipment</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+
+                            <a href="handleEquipment?action=list" class="nav-link">Equipment Management</a>
+                        </li>
+                    </ul>  
+
+                    <form class="d-flex" method="post" action="login">
+                        <span class="navbar-text">
+                            Welcome! <jsp:getProperty name="user" property="name" />
+                        </span>
+                        <input class="nav-item" type="hidden" name="action" value="logout" />
+                        <input class="btn btn-danger" type="submit" value="Logout" name="logoutButton" />
+                    </form>
+                </div>
+            </div>
+        </nav>
         <% } else if ("Senior Technician".equals(user.getRole())) { %>
         <section id="navbar">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -43,7 +63,7 @@
                     <div class="collapse navbar-collapse">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                
+
                                 <a href="handleUser?action=list" class="nav-link">Account Management</a>
                             </li>
                         </ul>  
@@ -59,6 +79,6 @@
                 </div>
             </nav>
         </section>
-        
-        
+
+
         <%}%>

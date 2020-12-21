@@ -23,8 +23,16 @@
                 <!-- Icon -->
                 <div class="fadeIn first">
                     <img src="./img/VTC.png" id="icon" alt="User Icon" />
+                    <br />
+                    <div class="error-msg">
+                        <%
+                            String error = request.getParameter("error");
+                            if ((error != null)){
+                                out.println("Invalid User ID / Password");
+                            }
+                        %>
+                    </div>
                 </div>
-
                 <!-- Login Form -->
                 <form method="POST" action="login">
                     <input type="hidden" name="action" value="authenticate" />
