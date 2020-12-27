@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ict.test;
 
 import ict.db.AssignmentDB;
 import java.time.LocalDate;
 
-/**
- *
- * @author 2689
- */
 public class InitEntireDB {
     public static void main(String[] args) {
         String url = "jdbc:mysql://localhost:3306/";
@@ -24,13 +15,11 @@ public class InitEntireDB {
         db.createTable();
         
         // init user
-        db.addUserRecord(1, "Peter", "123", "Student");
-        db.addUserRecord(2, "Faker", "123", "Technician");
-        db.addUserRecord(3, "Hacker", "123", "Senior Technician");
-        db.addUserRecord(4, "test", "123", "Student");
-        db.addUserRecord(5, "Ptesteter", "123", "Student");
-        db.addUserRecord(6, "Pettester", "123", "Student");
-        
+        db.addUserRecord("stu1@vtc.hk", "Student1", "123", "M", "12345678", "Student", true);
+        db.addUserRecord("tec@vtc.hk", "Technician1", "123", "M", "12345678", "Technician", true);
+        db.addUserRecord("stec@vtc.hk", "Stec1", "123", "M", "12345678", "Senior Technician", true);
+        db.addUserRecord("stu2@vtc.hk", "Student2", "123", "M", "12345678", "Student", true);
+        db.addUserRecord("stu3@vtc.hk", "Student3", "123", "M", "12345678", "Student", true);
         
         // init equipment
         db.addEquipmentRecord("Wired Mouse", "available", "good", 20, true);

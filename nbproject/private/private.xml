@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/E:/git_repo/ITP4511_Project/web/editUser.jsp</file>
-            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/db/AssignmentDB.java</file>
-            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/bean/EquipmentBean.java</file>
-            <file>file:/E:/git_repo/ITP4511_Project/web/editEquipment.jsp</file>
-            <file>file:/E:/git_repo/ITP4511_Project/web/accountManagement.jsp</file>
-            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/servlet/HandleUserServlet.java</file>
-            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/servlet/HandleEquipmentServlet.java</file>
-            <file>file:/E:/git_repo/ITP4511_Project/web/equipmentManagement.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

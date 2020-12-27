@@ -83,10 +83,14 @@ public class AssignmentDB {
             // user table
             String sql
                     = "CREATE TABLE IF NOT EXISTS User("
-                    + "user_id int(9) NOT NULL,"
+                    + "user_id int(9) NOT NULL AUTO_INCREMENT,"
+                    + "email varchar(50) NOT NULL,"
                     + "name varchar(25) NOT NULL,"
                     + "password varchar(25) NOT NULL,"
+                    + "gender varchar(8) NOT NULL,"
+                    + "phone varchar(8) NOT NULL,"
                     + "role varchar(25) NOT NULL,"
+                    + "status boolean NOT NULL,"
                     + "PRIMARY KEY (user_id))";
             stmnt.execute(sql);
             System.out.println("User table created");
@@ -108,11 +112,14 @@ public class AssignmentDB {
             sql = "CREATE TABLE IF NOT EXISTS Reservation("
                     + "reservation_id int(9) NOT NULL AUTO_INCREMENT,"
                     + "submit_user_id int(9) NULL,"
-                    + "checkout_date date,"
+                    + "request_date date,"
+                    + "start_date date,"
                     + "due_date date,"
-                    + "return_date date,"
-                    + "approve_user_id int(9) NULL,"
+                    + "checkout_date date,"
+                    + "checkin_date date,"
+                    + "period int(9),"
                     + "status varchar(20),"
+                    + "approve_user_id int(9) NULL,"
                     + "PRIMARY KEY (reservation_id),"
                     + "CONSTRAINT submit_user_id_fk FOREIGN KEY (submit_user_id) REFERENCES User(user_id),"
                     + "CONSTRAINT approve_user_id_fk FOREIGN KEY (approve_user_id) REFERENCES User(user_id))";
@@ -128,26 +135,6 @@ public class AssignmentDB {
                     + "FOREIGN KEY (equipment_id) REFERENCES Equipment(equipment_id))";
             stmnt.execute(sql);
             System.out.println("ReservationEquipment is created");
-            // check out record(fk reservation id, date)
-
-//            sql = "CREATE TABLE IF NOT EXISTS BorrowList("
-//                    + "borrow_id int(9) NOT NULL AUTO_INCREMENT,"
-//                    + "equipment_id int(8) NOT NULL,"
-//                    + "userId varchar(10) NOT NULL,"
-//                    + "quantity int(3) NOT NULL,"
-//                    + "status varchar(20) NOT NULL,"
-//                    + "PRIMARY KEY (borrow_id))";
-//            stmnt.execute(sql);
-//            System.out.println("BorrowList table created");
-//            
-//            sql
-//                    = "CREATE TABLE CheckInOut ("
-//                    + "  borrow_id int(10) NOT NULL,"
-//                    + "  start date NOT NULL ,"
-//                    + "  end date,"
-//                    + "PRIMARY KEY (borrow_id))";
-//            stmnt.execute(sql);
-//            System.out.println("CheckInOut table created");
             stmnt.close();
             cnnct.close();
         } catch (SQLException ex) {
@@ -161,18 +148,24 @@ public class AssignmentDB {
     }
 
     // add user record
-    public boolean addUserRecord(int userid, String name, String pw, String role) {
+    public boolean addUserRecord(String email, String name, String password, String gender, String phone, String role, boolean status) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isSuccess = false;
         try {
+            if (isExistUser(email)) {
+                return false;
+            }
             cnnct = getConnection();
-            String preQueryStatement = "INSERT INTO User values (?,?,?,?)";
+            String preQueryStatement = "INSERT INTO User(email, name, password, gender, phone, role, status) values (?,?,?,?,?,?,?)";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setInt(1, userid);
+            pStmnt.setString(1, email);
             pStmnt.setString(2, name);
-            pStmnt.setString(3, pw);
-            pStmnt.setString(4, role);
+            pStmnt.setString(3, password);
+            pStmnt.setString(4, gender);
+            pStmnt.setString(5, phone);
+            pStmnt.setString(6, role);
+            pStmnt.setBoolean(7, status);
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
                 isSuccess = true;
@@ -362,14 +355,14 @@ public class AssignmentDB {
     }
 
     // check is valid user
-    public boolean isValidUser(int userID, String pw) throws SQLException, IOException {
+    public boolean isValidUser(String email, String pw) throws SQLException, IOException {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isValid = false;
         cnnct = getConnection();
-        String preQueryStatement = "SELECT * FROM USER WHERE user_id=? and password=?";
+        String preQueryStatement = "SELECT * FROM USER WHERE email=? and password=? and status=true";
         pStmnt = cnnct.prepareStatement(preQueryStatement);
-        pStmnt.setInt(1, userID);
+        pStmnt.setString(1, email);
         pStmnt.setString(2, pw);
         ResultSet rs = null;
         rs = pStmnt.executeQuery();
@@ -382,6 +375,28 @@ public class AssignmentDB {
         cnnct.close();
         return isValid;
     }
+
+    // check is user email exist
+    public boolean isExistUser(String email) throws SQLException, IOException {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isExist = false;
+        cnnct = getConnection();
+        String preQueryStatement = "SELECT * FROM USER WHERE email=?";
+        pStmnt = cnnct.prepareStatement(preQueryStatement);
+        pStmnt.setString(1, email);
+        ResultSet rs = null;
+        rs = pStmnt.executeQuery();
+        if (rs.next()) {
+            isExist = true;
+        } else {
+            isExist = false;
+        }
+        pStmnt.close();
+        cnnct.close();
+        return isExist;
+    }
+    
 
     // list all user
     public ArrayList<UserBean> queryAllUser() {
@@ -398,9 +413,13 @@ public class AssignmentDB {
             while (rs.next()) {
                 userBean = new UserBean();
                 userBean.setUserID(rs.getInt(1));
-                userBean.setName(rs.getString(2));
-                userBean.setPw(rs.getString(3));
-                userBean.setRole(rs.getString(4));
+                userBean.setEmail(rs.getString(2));
+                userBean.setName(rs.getString(3));
+                userBean.setPassword(rs.getString(4));
+                userBean.setGender(rs.getString(5));
+                userBean.setPhone(rs.getString(6));
+                userBean.setRole(rs.getString(7));
+                userBean.setStatus(rs.getBoolean(8));
                 arraylist.add(userBean);
             }
             pStmnt.close();
@@ -431,9 +450,13 @@ public class AssignmentDB {
             if (rs.next()) {
                 userBean = new UserBean();
                 userBean.setUserID(rs.getInt(1));
-                userBean.setName(rs.getString(2));
-                userBean.setPw(rs.getString(3));
-                userBean.setRole(rs.getString(4));
+                userBean.setEmail(rs.getString(2));
+                userBean.setName(rs.getString(3));
+                userBean.setPassword(rs.getString(4));
+                userBean.setGender(rs.getString(5));
+                userBean.setPhone(rs.getString(6));
+                userBean.setRole(rs.getString(7));
+                userBean.setStatus(rs.getBoolean(8));
             }
             pStmnt.close();
             cnnct.close();
@@ -447,74 +470,41 @@ public class AssignmentDB {
         return userBean;
     }
 
-    // list user record by name
-    public ArrayList<UserBean> queryUserByName(String name) {
+    // list user record by email
+        public UserBean queryUserByEmail(String email) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         UserBean userBean = null;
-        ArrayList<UserBean> arraylist = new ArrayList<UserBean>();
         try {
             cnnct = getConnection();
-            String preQueryStatement = "Select * from users where name like ?";
+            String preQueryStatement = "SELECT * FROM User WHERE email=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setString(1, "%" + name + "%");
+            pStmnt.setString(1, email);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 userBean = new UserBean();
                 userBean.setUserID(rs.getInt(1));
-                userBean.setName(rs.getString(2));
-                userBean.setPw(rs.getString(3));
-                userBean.setRole(rs.getString(4));
-                arraylist.add(userBean);
+                userBean.setEmail(rs.getString(2));
+                userBean.setName(rs.getString(3));
+                userBean.setPassword(rs.getString(4));
+                userBean.setGender(rs.getString(5));
+                userBean.setPhone(rs.getString(6));
+                userBean.setRole(rs.getString(7));
+                userBean.setStatus(rs.getBoolean(8));
             }
             pStmnt.close();
             cnnct.close();
         } catch (SQLException ex) {
             while (ex != null) {
-                ex.printStackTrace();
                 ex = ex.getNextException();
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return arraylist;
+        return userBean;
     }
-
-    // list user record by role
-    public ArrayList<UserBean> queryUserByRole(String role) {
-        Connection cnnct = null;
-        PreparedStatement pStmnt = null;
-        UserBean userBean = null;
-        ArrayList<UserBean> arraylist = new ArrayList<UserBean>();
-        try {
-            cnnct = getConnection();
-            String preQueryStatement = "Select * from USER where role = ?";
-            pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setString(1, role);
-            ResultSet rs = null;
-            rs = pStmnt.executeQuery();
-            while (rs.next()) {
-                userBean = new UserBean();
-                userBean.setUserID(rs.getInt(1));
-                userBean.setName(rs.getString(2));
-                userBean.setPw(rs.getString(3));
-                userBean.setRole(rs.getString(4));
-                arraylist.add(userBean);
-            }
-            pStmnt.close();
-            cnnct.close();
-        } catch (SQLException ex) {
-            while (ex != null) {
-                ex.printStackTrace();
-                ex = ex.getNextException();
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return arraylist;
-    }
-
+    
     // edit user record
     public boolean editUserRecord(UserBean ub) {
         Connection cnnct = null;
@@ -523,12 +513,15 @@ public class AssignmentDB {
 
         try {
             cnnct = getConnection();
-            String preQueryStatement = "UPDATE User SET name=?, password=?, role=? where user_id=?";
+            String preQueryStatement = "UPDATE User SET name=?, password=?, gender=?, phone=?, role=?, status=? where user_id=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, ub.getName());
-            pStmnt.setString(2, ub.getPw());
-            pStmnt.setString(3, ub.getRole());
-            pStmnt.setInt(4, ub.getUserID());
+            pStmnt.setString(2, ub.getPassword());
+            pStmnt.setString(3, ub.getGender());
+            pStmnt.setString(4, ub.getPhone());
+            pStmnt.setString(5, ub.getRole());
+            pStmnt.setBoolean(6, ub.isStatus());
+            pStmnt.setInt(7, ub.getUserID());
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
                 isSuccess = true;
@@ -682,6 +675,48 @@ public class AssignmentDB {
         return (num == 1) ? true : false;
     }
 
+    // disable user record
+    public boolean disableUser(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int num = 0;
+        try {
+            cnnct = getConnection();
+            String sql = "SET foreign_key_checks = 0";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.executeUpdate();
+            String preQueryStatement = "UPDATE User SET status=false WHERE user_id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, id);
+            num = pStmnt.executeUpdate();
+            sql = "SET foreign_key_checks = 1";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.executeUpdate();
+
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+        return (num == 1) ? true : false;
+    }
+    
     // list all user
     public ArrayList<EquipmentBean> queryAllEquipment() {
         Connection cnnct = null;
@@ -716,7 +751,7 @@ public class AssignmentDB {
         }
         return arraylist;
     }
-    
+
     // del equipment record
     public boolean delEquipmentRecord(int id) {
         Connection cnnct = null;
@@ -758,7 +793,7 @@ public class AssignmentDB {
         }
         return (num == 1) ? true : false;
     }
-    
+
     // queryEquipmentByID
     public EquipmentBean queryEquipmentByID(int id) {
         Connection cnnct = null;

@@ -1,52 +1,60 @@
-<%-- 
-    Document   : index
-    Created on : Dec 20, 2020, 3:08:08 PM
-    Author     : 2689
---%>
+<!doctype html>
+<html lang="en">
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <link href="lib/css/login.css" rel="stylesheet" type="text/css"/>
-        <title>Login</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Login | Bootstrap Simple Admin Template</title>
+        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/auth.css" rel="stylesheet">
     </head>
+
     <body>
-
-        <div class="wrapper fadeInDown">
-            <div id="formContent">
-                <!-- Tabs Titles -->
-
-                <!-- Icon -->
-                <div class="fadeIn first">
-                    <img src="./img/VTC.png" id="icon" alt="User Icon" />
-                    <br />
-                    <div class="error-msg">
-                        <%
-                            String error = request.getParameter("error");
-                            if ((error != null)){
-                                out.println("Invalid User ID / Password");
-                            }
-                        %>
+        <div class="wrapper">
+            <div class="auth-content">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="mb-4">
+                            <img class="brand" src="assets/img/bootstraper-logo.png" alt="bootstraper logo">
+                        </div>
+                        <h6 class="mb-4 text-muted">
+                            Login to your account<br />
+                        </h6>
+                        <h3>
+                            <%
+                                String error = request.getParameter("error");
+                                if ((error != null)) {
+                                    out.println("Invalid User ID / Password");
+                                }
+                            %>
+                        </h3>
+                        <form action="login" method="POST">
+                            <input type="hidden" name="action" value="authenticate" />
+                            <div class="form-group text-left">
+                                <label for="email">Email adress</label>
+                                <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
+                            </div>
+                            <div class="form-group text-left">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="form-group text-left">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="remember" class="custom-control-input" id="remember-me">
+                                    <label class="custom-control-label" for="remember-me">Remember me on this device</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary shadow-2 mb-4">Login</button>
+                        </form>
+                        <p class="mb-2 text-muted">Forgot password? <a href="forgot-password.html">Reset</a></p>
+<!--                        <p class="mb-0 text-muted">Don't have account yet? <a href="signup.html">Signup</a></p>-->
                     </div>
                 </div>
-                <!-- Login Form -->
-                <form method="POST" action="login">
-                    <input type="hidden" name="action" value="authenticate" />
-                    <input type="text" id="userID" class="fadeIn second" name="userID" placeholder="User ID" />
-                    <input type="text" id="password" class="fadeIn third password" name="password" placeholder="Password" />
-                    <input type="submit" class="fadeIn fourth" value="LogIn" />
-                </form>
-
-                <!-- Remind Password -->
-                <div id="formFooter">
-                    <a class="underlineHover" href="#">Forgot Password?</a>
-                </div>
-
             </div>
         </div>
+        <script src="assets/vendor/jquery/jquery.min.js"></script>
+        <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
     </body>
+
 </html>

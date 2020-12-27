@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ict.servlet;
+package ict.Servlet;
 
 import ict.bean.UserBean;
 import ict.db.AssignmentDB;
@@ -61,7 +61,7 @@ public class HandleUserServlet extends HttpServlet {
             // get parameter, id, from the request
             if (request.getParameter("id") != null) {
                 // call delete record method in the database
-                db.delUserRecord(Integer.parseInt(request.getParameter("id")));
+                db.disableUser(Integer.parseInt(request.getParameter("id")));
                 // redirect the result to list action 
                 response.sendRedirect("handleUser?action=list");
             }
@@ -77,22 +77,31 @@ public class HandleUserServlet extends HttpServlet {
                 rd.forward(request, response);
             }
         } else if (action.equalsIgnoreCase("add")) {
-            if (db.addUserRecord(Integer.parseInt(request.getParameter("userID")), request.getParameter("userName"), request.getParameter("password"), request.getParameter("role"))) {
+            if (db.addUserRecord(request.getParameter("email"), request.getParameter("name"), request.getParameter("password"), request.getParameter("gender"), request.getParameter("phone"), request.getParameter("role"), Boolean.parseBoolean(request.getParameter("status")))) {
                 response.sendRedirect("handleUser?action=list");
             } else {
                 response.sendRedirect("editUser.jsp?error=true");
             }
         } else if (action.equalsIgnoreCase("edit")) {
             String password = request.getParameter("password");
-            String name = request.getParameter("userName");
+            String name = request.getParameter("name");
             String role = request.getParameter("role");
-            int id = Integer.parseInt(request.getParameter("userID"));
+            int id = Integer.parseInt(request.getParameter("id"));
+            String gender = request.getParameter("gender");
+            String phone = request.getParameter("phone");
+            String email = request.getParameter("email");
+            boolean status = Boolean.parseBoolean(request.getParameter("status"));
+            
             // call  editCustomer to update the database record
             UserBean ub = new UserBean();
-            ub.setPw(password);
+            ub.setPassword(password);
             ub.setUserID(id);
             ub.setName(name);
             ub.setRole(role);
+            ub.setGender(gender);
+            ub.setPhone(phone);
+            ub.setStatus(status);
+            ub.setEmail(email);
             db.editUserRecord(ub);
             // redirect the result to “list” action again
             response.sendRedirect("handleUser?action=list");

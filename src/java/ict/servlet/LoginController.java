@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ict.servlet;
+package ict.Servlet;
 
 import ict.bean.UserBean;
 import ict.db.AssignmentDB;
@@ -63,22 +63,15 @@ public class LoginController extends HttpServlet {
 
     private void doAuthenticate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        String strUserID = request.getParameter("userID");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
         String targetURL = "loginError.jsp";
         boolean isValid;
-        int userID;
         
-        if (strUserID.isEmpty() || strUserID == null) {
-            userID = -1;
-        } else {
-            userID = Integer.parseInt(strUserID);
-        }
-        
-        isValid = db.isValidUser(userID, password);
+        isValid = db.isValidUser(email, password);
         if (isValid) {
             HttpSession session = request.getSession(true);
-            UserBean ub = db.queryUserByID(userID);
+            UserBean ub = db.queryUserByEmail(email);
             if (ub != null) {
                 session.setAttribute("user", ub);
                 if ("Student".equals(ub.getRole())) {

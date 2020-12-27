@@ -11,9 +11,13 @@ package ict.bean;
  */
 public class UserBean {
     private int userID;
+    private String email;
     private String name;
+    private String password;
     private String role;
-    private String pw;
+    private String gender;
+    private String phone;
+    private boolean status;
 
     public UserBean() {
     }
@@ -26,6 +30,13 @@ public class UserBean {
         this.userID = userID;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getName() {
         return name;
@@ -33,6 +44,14 @@ public class UserBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {
@@ -43,11 +62,29 @@ public class UserBean {
         this.role = role;
     }
 
-    public String getPw() {
-        return pw;
+    public String getGender() {
+        return gender;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
+    
 }
