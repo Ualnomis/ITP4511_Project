@@ -12,7 +12,10 @@
         <link href="assets/vendor/datatables/datatables.min.css" rel="stylesheet">
         <link href="assets/css/master.css" rel="stylesheet">
     </head>
-
+<jsp:useBean id="user" class="ict.bean.UserBean" scope="session" />
+<%
+    final int USERID = user.getUserID();
+%>
     <body>
         <div class="wrapper">
             <!--left nav bar-->
@@ -20,7 +23,7 @@
                 <div class="sidebar-header">
                     <img src="assets/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
                 </div>
-                <jsp:useBean id="user" class="ict.bean.UserBean" scope="session" />
+                
                 <% if ("Senior Technician".equals(user.getRole())) {%>
                 <ul class="list-unstyled components text-secondary">
                     <li>
@@ -56,16 +59,19 @@
                         <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Equipment Borrowing</a>
                         <ul class="collapse list-unstyled" id="equipment-borrowing">
                             <li>
-                                <a href=""><i class="fas fa-angle-right"></i>List All Equipment</a>
+                                <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
                             </li>
                             <li>
-                                <a href=""><i class="fas fa-angle-right"></i>View Borrowing Record</a>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>View Borrowing Record</a>
                             </li>
                             <li>
-                                <a href=""><i class="fas fa-angle-right"></i>Borrowing Request</a>
+                                <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request</a>
                             </li>
                             <li>
-                                <a href=""><i class="fas fa-angle-right"></i>Equipment Check-out/in</a>
+                                <a href="equipmentBorrow?action=showCheckOut"><i class="fas fa-angle-right"></i>Equipment Check-out</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=showCheckIn"><i class="fas fa-angle-right"></i>Equipment Check-in</a>
                             </li>
                         </ul>
                     </li>

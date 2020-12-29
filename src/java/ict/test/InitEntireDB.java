@@ -34,10 +34,11 @@ public class InitEntireDB {
         db.addEquipmentRecord("Ryzen 3600x", "unavailable", "good", 0, true);
         
         // init reservation
-        db.addReservationRecord(1, null, LocalDate.of(2020, 12, 31), null, 2, "Approved");
-        db.addReservationRecord(1, null, LocalDate.of(2020, 12, 31), null, 2, "Reject");
-        db.addReservationRecord(1, LocalDate.of(2020, 12, 1), LocalDate.of(2020, 12, 4), null, 2, "OnLease");
-        db.addReservationRecord(5, LocalDate.of(2020, 12, 4), LocalDate.of(2020, 12, 31), LocalDate.of(2020, 12, 21), 2, "Completed");       
+        db.addReservationRecord(1, 1, 5, LocalDate.of(2020, 12, 18), LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 31), null, null, 11, 0, "Requesting");
+        db.addReservationRecord(4, 2, 5, LocalDate.of(2020, 12, 19), LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 31), null, null, 11, 2, "Approved");
+        db.addReservationRecord(5, 2, 5, LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 31), null, null, 11, 2, "Rejected");
+        db.addReservationRecord(1, 3, 5, LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 31), LocalDate.of(2020, 12, 20), null, 11, 2, "Leasing");
+        db.addReservationRecord(4, 1, 5, LocalDate.of(2020, 12, 15), LocalDate.of(2020, 12, 16), LocalDate.of(2020, 12, 18), LocalDate.of(2020, 12, 16), LocalDate.of(2020, 12, 18), 2, 2, "Completed");       
         
         // init reservation equipment
         db.addReservationEquipment(1, 1, 5);

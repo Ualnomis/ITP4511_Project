@@ -41,7 +41,6 @@ public class HandleEquipmentServlet extends HttpServlet {
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
         db = new AssignmentDB(dbUrl, dbUser, dbPassword);
-
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

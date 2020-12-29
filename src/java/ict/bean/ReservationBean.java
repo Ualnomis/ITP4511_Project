@@ -14,11 +14,35 @@ import java.time.LocalDate;
 public class ReservationBean {
     private int reservationID;
     private int submitUserID;
-    private LocalDate checkoutDate;
+    private int equipmentID;
+    private int qty;
+    private LocalDate requestDate;
+    private LocalDate startDate;
     private LocalDate dueDate;
-    private LocalDate returnDate;
-    private int approveUserID;
+    private LocalDate checkOutDate;
+    private LocalDate checkInDate;
+    private int period;
     private String status;
+    private int approveUserID;
+    private String equipmentName;
+    private String approveUserName;
+    private String submitUserName;
+
+    public String getApproveUserName() {
+        return approveUserName;
+    }
+
+    public void setApproveUserName(String approveUserName) {
+        this.approveUserName = approveUserName;
+    }
+
+    public String getSubmitUserName() {
+        return submitUserName;
+    }
+
+    public void setSubmitUserName(String submitUserName) {
+        this.submitUserName = submitUserName;
+    }
 
     public ReservationBean() {
     }
@@ -39,14 +63,37 @@ public class ReservationBean {
         this.submitUserID = submitUserID;
     }
 
-    public LocalDate getCheckoutDate() {
-        return checkoutDate;
+    public int getEquipmentID() {
+        return equipmentID;
     }
 
-    public void setCheckoutDate(LocalDate checkoutDate) {
-        this.checkoutDate = checkoutDate;
+    public void setEquipmentID(int equipmentID) {
+        this.equipmentID = equipmentID;
     }
 
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public LocalDate getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
 
     public LocalDate getDueDate() {
         return dueDate;
@@ -56,12 +103,36 @@ public class ReservationBean {
         this.dueDate = dueDate;
     }
 
-    public LocalDate getReturnDate() {
-        return returnDate;
+    public LocalDate getCheckOutDate() {
+        return checkOutDate;
     }
 
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
+    public void setCheckOutDate(LocalDate checkOutDate) {
+        this.checkOutDate = checkOutDate;
+    }
+
+    public LocalDate getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(LocalDate checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getApproveUserID() {
@@ -72,11 +143,13 @@ public class ReservationBean {
         this.approveUserID = approveUserID;
     }
 
-    public String getStatus() {
-        return status;
+    public String getEquipmentName() {
+        return equipmentName;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
     }
+    
+    
 }

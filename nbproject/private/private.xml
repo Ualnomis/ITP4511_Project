@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/E:/git_repo/ITP4511_Project/web/borrowRecord.jsp</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/borrowRequest.jsp</file>
+            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/db/AssignmentDB.java</file>
+            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/test/InitEntireDB.java</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/equipmentCheckIn.jsp</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/borrowEquipment.jsp</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/header.jsp</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/equipmentCheckOut.jsp</file>
+            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/Servlet/EquipmentBorrowController.java</file>
+        </group>
     </open-files>
 </project-private>
