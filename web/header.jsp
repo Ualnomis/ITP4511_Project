@@ -1,3 +1,4 @@
+
 <html lang="en">
 
     <head>
@@ -169,7 +170,6 @@
                 </ul>
                 <% }%>
             </nav>
-
             <!--top nav bar-->
             <div id="body" class="active">
                 <nav class="navbar navbar-expand-lg navbar-white bg-white">

@@ -16,9 +16,9 @@ public class InitEntireDB {
         
         // init user
         db.addUserRecord("stu1@vtc.hk", "Student1", "123", "M", "12345678", "Student", true);
-        db.addUserRecord("tec@vtc.hk", "Technician1", "123", "M", "12345678", "Technician", true);
+        db.addUserRecord("tec@vtc.hk", "Technician1", "123", "F", "12345678", "Technician", true);
         db.addUserRecord("stec@vtc.hk", "Stec1", "123", "M", "12345678", "Senior Technician", true);
-        db.addUserRecord("stu2@vtc.hk", "Student2", "123", "M", "12345678", "Student", true);
+        db.addUserRecord("stu2@vtc.hk", "Student2", "123", "F", "12345678", "Student", true);
         db.addUserRecord("stu3@vtc.hk", "Student3", "123", "M", "12345678", "Student", true);
         
         // init equipment
@@ -30,8 +30,8 @@ public class InitEntireDB {
         db.addEquipmentRecord("ipad", "available", "good", 14, false);
         db.addEquipmentRecord("CD", "available", "good", 2, false);
         db.addEquipmentRecord("DVD", "available", "good", 5, false);
-        db.addEquipmentRecord("USB", "available", "good", 7, false);
-        db.addEquipmentRecord("Ryzen 3600x", "unavailable", "good", 0, true);
+        db.addEquipmentRecord("USB", "available", "good", 7, true);
+        db.addEquipmentRecord("pen", "unavailable", "good", 0, true);
         
         // init reservation
         db.addReservationRecord(1, 1, 5, LocalDate.of(2020, 12, 18), LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 31), null, null, 11, 0, "Requesting");
