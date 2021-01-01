@@ -19,8 +19,8 @@
                             <th>Equipment Name</th>
                             <th>Description</th>
                             <th>Stock</th>
-                            <th>Status</th>
-                            <th>Visibility</th>
+<!--                            <th>Status</th>
+                            <th>Visibility</th>-->
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -35,13 +35,13 @@
                                 out.println("<td>" + b.getEquipmentName() + "</td>");
                                 out.println("<td>" + b.getDescription() + "</td>");
                                 out.println("<td>" + b.getStock() + "</td>");
-                                out.println("<td>" + b.getStatus() + "</td>");
-                                out.println("<td>");
-                                if (b.isVisibility()) {
-                                    out.println("Visible");
-                                } else {
-                                    out.println("Not visible");
-                                }
+//                                out.println("<td>" + b.getStatus() + "</td>");
+//                                out.println("<td>");
+//                                if (b.isVisibility()) {
+//                                    out.println("Visible");
+//                                } else {
+//                                    out.println("Not visible");
+//                                }
                                 out.println("</td>");
                                 out.println("<td>");
 //                              out.println("<a href=\"#" + modal + "\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-trash\"></i></a>");

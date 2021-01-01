@@ -28,7 +28,7 @@
                             <th>Period</th>
                             <th>Status</th>
                             <th>Approve User</th>
-                            <th>Action</th>
+                            <!--<th>Action</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -91,10 +91,11 @@
                                         out.println("/");
                                     }
                                     out.println("</td>");
-                                    out.println("<td>");
-//                                  out.println("<a href=\"#" + modal + "\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-trash\"></i></a>");
-                                    out.println("<button type=\"button\" class=\"btn btn-outline-danger btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-trash\">Request</i></button>");
-                                    out.println("</td>");
+//                                    out.println("<td>");
+////                                  out.println("<a href=\"#" + modal + "\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-trash\"></i></a>");
+////                                    out.println("<button type=\"button\" class=\"btn btn-outline-danger btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-trash\">Request</i></button>");
+//                                    out.println("/");
+//                                    out.println("</td>");
                                     out.println("</tr>");
                                 }
 
@@ -130,7 +131,7 @@
                         </div>
                     </div>
                     <%
-                            
+
                         }
                     %>
                     </tbody>

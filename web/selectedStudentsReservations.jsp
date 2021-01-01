@@ -4,15 +4,33 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="ict.bean.UserBean"%>
 <%@include file="header.jsp" %>
-<% ArrayList<ReservationBean> reservations = (ArrayList<ReservationBean>) request.getAttribute("reservations"); %>
+<%
+    ArrayList<ReservationBean> reservations = (ArrayList<ReservationBean>) request.getAttribute("reservations");
+    ArrayList<ReservationBean> allReservations = (ArrayList<ReservationBean>) request.getAttribute("allReservations");
+    ArrayList<Integer> newStudentsID = (ArrayList<Integer>) request.getAttribute("newStudentsID");
+%>
 <div class="content">
     <div>
         <div class="page-title">
-            <h3>Borrow Request
+            <h3>
+                Selected Students Reservations
             </h3>
         </div>
         <div class="box box-primary">
             <div class="box-body">
+                <form method="post" action="analyticAndReport">
+                    <input type="hidden" name="action" value="searchStudentReservations" />
+                    Student Number: <input type="text" name="student-number" class="form-control" /> 
+                    <input type="submit" class="btn btn-primary" />
+                </form>
+
+                Selected Students Number:
+                <%
+                    for (int i = 0; i < newStudentsID.size(); i++) {
+                        out.println(newStudentsID.get(i));
+                    }
+                %>
+                <hr />
                 <table width="100%" class="table table-hover" id="dataTables-example">
                     <thead>
                         <tr>
@@ -34,9 +52,8 @@
                     <tbody>
 
                         <%
-                            for (int i = 0; i < reservations.size(); i++) {
-                                ReservationBean b = reservations.get(i);
-//                                String modal = "disableModal" + b.getReservationID();
+                            for (int i = 0; i < allReservations.size(); i++) {
+                                ReservationBean b = allReservations.get(i);
                                 out.println("<tr ");
                                 if ((LocalDate.now()).isAfter(b.getDueDate()) && ("Leasing".equalsIgnoreCase(b.getStatus()))) {
                                     out.println("style=\"color:white; background-color:red;\"");
@@ -92,58 +109,12 @@
                                 out.println("</td>");
                                 out.println("<td>");
 //                                  out.println("<a href=\"#" + modal + "\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-trash\"></i></a>");
-                                out.println("<form action=\"equipmentBorrow\" method=\"post\" style=\"display: inline-block; margin-block-end: 0em;\">");
-                                out.println("<input type=\"hidden\" name=\"action\" value=\"acceptRequest\" />");
-                                out.println("<input type=\"hidden\" name=\"approvedUserID\" value=\"" + USERID + "\" />");
-                                out.println("<input type=\"hidden\" name=\"equipmentID\" value=\"" + b.getEquipmentID() + "\" />");
-                                out.println("<input type=\"hidden\" name=\"qty\" value=\"" + b.getQty() + "\" />");
-                                out.println("<input type=\"hidden\" name=\"reservationID\" value=\"" + b.getReservationID() + "\" />");
-                                out.println("<button type=\"submit\" class=\"btn btn-outline-info btn-rounded\"><i class=\"fas fa-check\"></i></button>");
-                                out.println("</form>");
-                                out.println("<form action=\"equipmentBorrow\" method=\"post\" style=\"display: inline-block; margin-block-end: 0em;\">");
-                                out.println("<input type=\"hidden\" name=\"action\" value=\"rejectRequest\" />");
-                                out.println("<input type=\"hidden\" name=\"reservationID\" value=\"" + b.getReservationID() + "\" />");
-                                out.println("<input type=\"hidden\" name=\"equipmentID\" value=\"" + b.getEquipmentID() + "\" />");
-                                out.println("<input type=\"hidden\" name=\"qty\" value=\"" + b.getQty() + "\" />");
-                                out.println("<input type=\"hidden\" name=\"approvedUserID\" value=\"" + USERID + "\" />");
-                                out.println("<button type=\"submit\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-times\"></i></button>");
-                                out.println("</form>");
+//                                    out.println("<button type=\"button\" class=\"btn btn-outline-danger btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-trash\">Request</i></button>");
+                                out.println("/");
                                 out.println("</td>");
                                 out.println("</tr>");
-
-                        %>
-<!--                    <div class="modal fade" id="<%= "disableModal" + b.getEquipmentID()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Borrow Equipment</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <form method="post" action="equipmentBorrow">
-                                    <div class="modal-body text-left">
-                                        <label>Qty:</label>
-                                        <input class="form-control" name="qty" type="number" value="1" min="1" max="" step="1" />
-
-                                        <label>Start Date</label>
-                                        <input class="form-control" name="startDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
-                                        <label>End Date</label>
-                                        <input class="form-control" name="endDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="hidden" name="action" value="borrow" />
-                                        <input type="hidden" name="equipmentID" value=<%= b.getEquipmentID()%> />
-                                        <input type="hidden" name="userID" value=<%= user.getUserID()%> />
-                                        <button type="submit" class="btn btn-primary">Confirm</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>-->
-                        <%
                             }
+
                         %>
                     </tbody>
                 </table>

@@ -4,7 +4,7 @@
 <%@include file="header.jsp" %>
 <% ArrayList<EquipmentBean> equipments = (ArrayList<EquipmentBean>) request.getAttribute("equipments"); %>
 <div class="content">
-    <div class="container">
+    <div class="">
         <div class="page-title">
             <h3>Equipment Management
                 <a href="roles.html" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-user-shield"></i> Add User</a>
@@ -43,7 +43,7 @@
                                     out.println("Not visible");
                                 }
                                 out.println("</td>");
-                                out.println("<td class=\"text-right\">");
+                                out.println("<td>");
                                out.println("<a href=\"handleEquipment?action=getEditEquipment&id=" + b.getEquipmentID() + "\" class=\"btn btn-outline-info btn-rounded\"><i class=\"fas fa-pen\"></i></a>");
 //                                out.println("<a href=\"#" + modal + "\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-trash\"></i></a>");
                                 out.println("<button type=\"button\" class=\"btn btn-outline-danger btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-trash\"></i></button>");

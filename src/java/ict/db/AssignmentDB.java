@@ -1274,8 +1274,8 @@ public class AssignmentDB {
         }
         return arraylist;
     }
-    
-        public boolean checkInByID(int id, int equipmentID, int qty) {
+
+    public boolean checkInByID(int id, int equipmentID, int qty) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isSuccess = false;
@@ -1287,12 +1287,12 @@ public class AssignmentDB {
             pStmnt.setString(1, "Completed");
             pStmnt.setObject(2, Date.valueOf(LocalDate.now()));
             pStmnt.setInt(3, id);
+            addEquipmentQtyByID(equipmentID, qty);
             int rowCount = pStmnt.executeUpdate();
             if (rowCount >= 1) {
                 isSuccess = true;
                 System.out.println(id + " is updated");
             }
-            addEquipmentQtyByID(equipmentID, qty);
             pStmnt.close();
             cnnct.close();
         } catch (SQLException ex) {
@@ -1304,5 +1304,182 @@ public class AssignmentDB {
             ex.printStackTrace();
         }
         return isSuccess;
+    }
+
+    public ArrayList<ReservationBean> queryRservationsByID(int stuID) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        ArrayList<ReservationBean> arraylist = new ArrayList<ReservationBean>();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM Reservation WHERE submit_user_id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, stuID);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                ReservationBean b = new ReservationBean();
+                b.setReservationID(rs.getInt(1));
+                b.setSubmitUserID(rs.getInt(2));
+                b.setEquipmentID(rs.getInt(3));
+                b.setQty(rs.getInt(4));
+                b.setRequestDate(LocalDate.parse(rs.getString(5)));
+                b.setStartDate(LocalDate.parse(rs.getString(6)));
+                b.setDueDate(LocalDate.parse(rs.getString(7)));
+                if (rs.getString(8) != null) {
+                    b.setCheckOutDate(LocalDate.parse(rs.getString(8)));
+                } else {
+                    b.setCheckOutDate(null);
+                }
+                if (rs.getString(9) != null) {
+                    b.setCheckInDate(LocalDate.parse(rs.getString(9)));
+                } else {
+                    b.setCheckInDate(null);
+                }
+                b.setPeriod(rs.getInt(10));
+                b.setStatus(rs.getString(11));
+                if (rs.getString(12) != null) {
+                    b.setApproveUserID(Integer.parseInt(rs.getString(12)));
+                } else {
+                    b.setApproveUserID(0);
+                }
+                b.setSubmitUserName(queryUserNameByID(rs.getInt(2)));
+                b.setApproveUserName(queryUserNameByID(b.getApproveUserID()));
+                b.setEquipmentName(queryEquipmentNameByID(rs.getInt(3)));
+                arraylist.add(b);
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return arraylist;
+    }
+
+    public ArrayList<ReservationBean> queryEquipmentUtilization() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        ArrayList<ReservationBean> arraylist = new ArrayList<ReservationBean>();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT equipment_id, SUM(period) FROM Reservation WHERE NOT(status='Rejected') GROUP BY equipment_id";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                ReservationBean b = new ReservationBean();
+                b.setEquipmentID(rs.getInt(1));
+                b.setPeriod(rs.getInt(2));
+                b.setEquipmentName(queryEquipmentNameByID(rs.getInt(1)));
+                arraylist.add(b);
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return arraylist;
+    }
+
+    public int queryAllPeriod() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int period = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT SUM(period) FROM Reservation WHERE NOT(status='Rejected')";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                period = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return period;
+    }
+
+    public ArrayList<ReservationBean> queryEquipmentUtilizationByDate(LocalDate startDate, LocalDate endDate) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        ArrayList<ReservationBean> arraylist = new ArrayList<ReservationBean>();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT equipment_id, SUM(period) FROM Reservation WHERE NOT(status='Rejected') AND start_date>=? and due_date<=? GROUP BY equipment_id";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setObject(1, Date.valueOf(startDate));
+            pStmnt.setObject(2, Date.valueOf(endDate));
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                ReservationBean b = new ReservationBean();
+                b.setEquipmentID(rs.getInt(1));
+                b.setPeriod(rs.getInt(2));
+                b.setEquipmentName(queryEquipmentNameByID(rs.getInt(1)));
+                arraylist.add(b);
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return arraylist;
+    }
+
+    public int queryPeriodByDate(LocalDate startDate, LocalDate endDate) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int period = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT SUM(period) FROM Reservation WHERE NOT(status='Rejected') AND start_date>=? and due_date<=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setObject(1, Date.valueOf(startDate));
+            pStmnt.setObject(2, Date.valueOf(endDate));
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                period = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return period;
     }
 }

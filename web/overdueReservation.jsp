@@ -8,7 +8,7 @@
 <div class="content">
     <div>
         <div class="page-title">
-            <h3>Equipment Check-in
+            <h3>Overdue Reservations
             </h3>
         </div>
         <div class="box box-primary">
@@ -36,8 +36,8 @@
                         <%
                             for (int i = 0; i < reservations.size(); i++) {
                                 ReservationBean b = reservations.get(i);
+                                if (LocalDate.now().isAfter(b.getDueDate())) {
 //                                String modal = "disableModal" + b.getReservationID();
-                                
                                     out.println("<tr ");
                                     if ((LocalDate.now()).isAfter(b.getDueDate()) && ("Leasing".equalsIgnoreCase(b.getStatus()))) {
                                         out.println("style=\"color:white; background-color:red;\"");
@@ -102,6 +102,40 @@
                                     out.println("</form>");
                                     out.println("</td>");
                                     out.println("</tr>");
+
+                        %>
+<!--                    <div class="modal fade" id="<%= "disableModal" + b.getEquipmentID()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Borrow Equipment</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <form method="post" action="equipmentBorrow">
+                                    <div class="modal-body text-left">
+                                        <label>Qty:</label>
+                                        <input class="form-control" name="qty" type="number" value="1" min="1" max="" step="1" />
+
+                                        <label>Start Date</label>
+                                        <input class="form-control" name="startDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
+                                        <label>End Date</label>
+                                        <input class="form-control" name="endDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="action" value="borrow" />
+                                        <input type="hidden" name="equipmentID" value=<%= b.getEquipmentID()%> />
+                                        <input type="hidden" name="userID" value=<%= user.getUserID()%> />
+                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>-->
+                        <%
+                                }
                             }
                         %>
                     </tbody>

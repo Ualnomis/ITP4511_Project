@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Tables | Bootstrap Simple Admin Template</title>
+        <title>IVPET Equipment</title>
         <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
         <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
         <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -12,18 +12,18 @@
         <link href="assets/vendor/datatables/datatables.min.css" rel="stylesheet">
         <link href="assets/css/master.css" rel="stylesheet">
     </head>
-<jsp:useBean id="user" class="ict.bean.UserBean" scope="session" />
-<%
-    final int USERID = user.getUserID();
-%>
+    <jsp:useBean id="user" class="ict.bean.UserBean" scope="session" />
+    <%
+        final int USERID = user.getUserID();
+    %>
     <body>
         <div class="wrapper">
             <!--left nav bar-->
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <img src="assets/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+                    <img src="assets/img/logo_vtc.svg" alt="bootraper logo" class="app-logo" style="width: 210px; height: 42px;">
                 </div>
-                
+
                 <% if ("Senior Technician".equals(user.getRole())) {%>
                 <ul class="list-unstyled components text-secondary">
                     <li>
@@ -75,7 +75,94 @@
                             </li>
                         </ul>
                     </li>
-
+                    <li>
+                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Analytic/Report</a>
+                        <ul class="collapse list-unstyled" id="analytic-report">
+                            <li>
+                                <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>List Borrowing Records(Selected Students)</a>
+                            </li>
+                            <li>
+                                <a href="analyticAndReport?action=listAllEquipmentUtilizationRate"><i class="fas fa-angle-right"></i>Equipments Utilization Rate</a>
+                            </li>
+                            <li>
+                                <a href="analyticAndReport?action=listOverdue"><i class="fas fa-angle-right"></i>Overdue Reservations</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
+                </ul>
+                <% } else if ("Technician".equals(user.getRole())) { %>
+                <ul class="list-unstyled components text-secondary">
+                    <li>
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <!--inventory management-->
+                    <li>
+                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Inventory Management</a>
+                        <ul class="collapse list-unstyled" id="inventory-management">
+                            <li>
+                                <a href="handleEquipment?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
+                            </li>
+                            <li>
+                                <a href="editEquipment.jsp"><i class="fas fa-angle-right"></i>Add Equipment</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--equipment borrowing-->
+                    <li>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Equipment Borrowing</a>
+                        <ul class="collapse list-unstyled" id="equipment-borrowing">
+                            <li>
+                                <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>View Borrowing Record</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=showCheckOut"><i class="fas fa-angle-right"></i>Equipment Check-out</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=showCheckIn"><i class="fas fa-angle-right"></i>Equipment Check-in</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Analytic/Report</a>
+                        <ul class="collapse list-unstyled" id="analytic-report">
+                            <li>
+                                <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>List Borrowing Records(Selected Students)</a>
+                            </li>
+                            <li>
+                                <a href="analyticAndReport?action=listOverdue"><i class="fas fa-angle-right"></i>Overdue Reservations</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
+                </ul>
+                <% } else if ("Student".equals(user.getRole())) { %>
+                <ul class="list-unstyled components text-secondary">
+                    <li>
+                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <!--equipment borrowing-->
+                    <li>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Equipment Borrowing</a>
+                        <ul class="collapse list-unstyled" id="equipment-borrowing">
+                            <li>
+                                <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>View Borrowing Record</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
                     </li>

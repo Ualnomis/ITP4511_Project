@@ -27,6 +27,15 @@ public class ReservationBean {
     private String equipmentName;
     private String approveUserName;
     private String submitUserName;
+    private double utilizationRate;
+
+    public double getUtilizationRate() {
+        return utilizationRate;
+    }
+
+    public void setUtilizationRate(double utilizationRate) {
+        this.utilizationRate = utilizationRate;
+    }
 
     public String getApproveUserName() {
         return approveUserName;

@@ -65,7 +65,9 @@ public class EquipmentBorrowController extends HttpServlet {
             LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
             LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
             Period period = Period.between(startDate, endDate);
-            db.addReservationRecord(submitUserID, equipmentID, qty, LocalDate.now(), startDate, endDate, null, null, period.getDays(), 0, "Requesting");
+            int periodDays = period.getDays();
+            periodDays = (periodDays == 0) ? 1 : periodDays;
+            db.addReservationRecord(submitUserID, equipmentID, qty, LocalDate.now(), startDate, endDate, null, null, periodDays, 0, "Requesting");
             db.reduceEquipmentQtyByID(equipmentID, qty);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/equipmentBorrow?action=showBorrowRecord");

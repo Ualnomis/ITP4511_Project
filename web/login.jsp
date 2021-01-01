@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <div class="mb-4">
-                            <img class="brand" src="assets/img/bootstraper-logo.png" alt="bootstraper logo">
+                            <img src="assets/img/logo_vtc.svg" alt="bootraper logo" class="app-logo" style="width: 210px; height: 42px;">
                         </div>
                         <h6 class="mb-4 text-muted">
                             Login to your account<br />

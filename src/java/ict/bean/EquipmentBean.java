@@ -16,6 +16,15 @@ public class EquipmentBean {
     private String status;
     private String description;
     private boolean visibility;
+    private double utilizationRate;
+
+    public double getUtilizationRate() {
+        return utilizationRate;
+    }
+
+    public void setUtilizationRate(double utilizationRate) {
+        this.utilizationRate = utilizationRate;
+    }
 
     public EquipmentBean() {
     }
