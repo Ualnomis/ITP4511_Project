@@ -21,11 +21,11 @@
                         <h6 class="mb-4 text-muted">
                             Login to your account<br />
                         </h6>
-                        <h3>
+                        <h3 style="color: red;">
                             <%
                                 String error = request.getParameter("error");
                                 if ((error != null)) {
-                                    out.println("Invalid User ID / Password");
+                                    out.println("Invalid Email / Password");
                                 }
                             %>
                         </h3>

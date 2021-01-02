@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="/WEB-INF/footerTag.tld" prefix="footerTag"%>
 <html lang="en">
 
     <head>
