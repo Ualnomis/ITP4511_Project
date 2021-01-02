@@ -38,7 +38,7 @@
                 Selected Students:
                 <%
                     for (int i = 0; i < newStudentsID.size(); i++) {
-                        out.println("<span class=\"badge badge-primary\">" + db.queryUserNameByID(newStudentsID.get(i))+ " (UID: " + newStudentsID.get(i) +")</span>");
+                        out.println("<span class=\"badge badge-primary\">" + db.queryUserNameByID(newStudentsID.get(i))+ " (ID: " + newStudentsID.get(i) +")</span>");
                     }
                 %>
                 <br />

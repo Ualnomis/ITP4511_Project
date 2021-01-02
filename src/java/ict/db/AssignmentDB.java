@@ -130,14 +130,14 @@ public class AssignmentDB {
             System.out.println("Reservation is created");
 
             // reservation equipment(fk1: reservation id, fk2: equipment_id)
-            sql = "CREATE TABLE IF NOT EXISTS ReservationEquipment("
-                    + "reservation_id int(9),"
-                    + "equipment_id int(9),"
-                    + "qty int(9),"
-                    + "FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id),"
-                    + "FOREIGN KEY (equipment_id) REFERENCES Equipment(equipment_id))";
-            stmnt.execute(sql);
-            System.out.println("ReservationEquipment is created");
+//            sql = "CREATE TABLE IF NOT EXISTS ReservationEquipment("
+//                    + "reservation_id int(9),"
+//                    + "equipment_id int(9),"
+//                    + "qty int(9),"
+//                    + "FOREIGN KEY (reservation_id) REFERENCES Reservation(reservation_id),"
+//                    + "FOREIGN KEY (equipment_id) REFERENCES Equipment(equipment_id))";
+//            stmnt.execute(sql);
+//            System.out.println("ReservationEquipment is created");
             stmnt.close();
             cnnct.close();
         } catch (SQLException ex) {

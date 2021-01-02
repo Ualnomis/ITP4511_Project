@@ -92,7 +92,14 @@
                                 out.println("</td>");
 
                                 out.println("<td>");
-                                if ((LocalDate.now()).isBefore(b.getDueDate()) && ("Approved".equalsIgnoreCase(b.getStatus()))) {
+                                if ((LocalDate.now()).isAfter(b.getDueDate()) && ("Approved".equalsIgnoreCase(b.getStatus()))) {
+                                    out.println("<form action=\"equipmentBorrow\" method=\"post\" style=\"margin-block-end: 0em;\">");
+                                    out.println("<input type=\"hidden\" name=\"action\" value=\"checkoutOvderdue\" />");
+                                    out.println("<input type=\"hidden\" name=\"qty\" value=\"" + b.getQty() + "\" />");
+                                    out.println("<input type=\"hidden\" name=\"equipmentID\" value=\"" + b.getEquipmentID() + "\" />");
+                                    out.println("<input type=\"hidden\" name=\"reservationID\" value=\"" + b.getReservationID() + "\" />");
+                                    out.println("<button type=\"submit\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-times\"></i></button>");
+                                } else {
                                     out.println("<form action=\"equipmentBorrow\" method=\"post\" style=\"margin-block-end: 0em;\">");
                                     out.println("<input type=\"hidden\" name=\"action\" value=\"checkOut\" />");
                                     out.println("<input type=\"hidden\" name=\"qty\" value=\"" + b.getQty() + "\" />");
@@ -100,13 +107,6 @@
                                     out.println("<input type=\"hidden\" name=\"reservationID\" value=\"" + b.getReservationID() + "\" />");
                                     out.println("<button type=\"submit\" class=\"btn btn-outline-info btn-rounded\"><i class=\"fas fa-check\"></i></button>");
                                     out.println("</form>");
-                                } else {
-                                    out.println("<form action=\"equipmentBorrow\" method=\"post\" style=\"margin-block-end: 0em;\">");
-                                    out.println("<input type=\"hidden\" name=\"action\" value=\"checkoutOvderdue\" />");
-                                    out.println("<input type=\"hidden\" name=\"qty\" value=\"" + b.getQty() + "\" />");
-                                    out.println("<input type=\"hidden\" name=\"equipmentID\" value=\"" + b.getEquipmentID() + "\" />");
-                                    out.println("<input type=\"hidden\" name=\"reservationID\" value=\"" + b.getReservationID() + "\" />");
-                                    out.println("<button type=\"submit\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-times\"></i></button>");
                                 }
                                 out.println("</td>");
                                 out.println("</tr>");
