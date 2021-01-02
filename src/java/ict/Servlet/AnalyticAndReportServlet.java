@@ -30,6 +30,7 @@ public class AnalyticAndReportServlet extends HttpServlet {
     ArrayList<ReservationBean> allReservations = new ArrayList<ReservationBean>();
     ArrayList<Integer> studentsID = new ArrayList<Integer>();
     ArrayList<EquipmentBean> allEquipments = new ArrayList<EquipmentBean>();
+    ArrayList<Integer> newStudentsID = new ArrayList<Integer>();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,7 +66,7 @@ public class AnalyticAndReportServlet extends HttpServlet {
             ArrayList<ReservationBean> reservations = new ArrayList<ReservationBean>();
             allReservations = new ArrayList<ReservationBean>();
             studentsID = new ArrayList<Integer>();
-            ArrayList<Integer> newStudentsID = removeDuplicates(studentsID);
+            newStudentsID = new ArrayList<Integer>();
             // set the result into the attribute	 
             request.setAttribute("reservations", reservations);
             request.setAttribute("allReservations", allReservations);
@@ -76,14 +77,27 @@ public class AnalyticAndReportServlet extends HttpServlet {
             rd.forward(request, response);
         } else if ("searchStudentReservations".equalsIgnoreCase(action)) {
             int stuID = Integer.parseInt(request.getParameter("student-number"));
-            // call the query db to get retrieve for all customer 
-            ArrayList<ReservationBean> reservations = db.queryRservationsByID(stuID);
+            ArrayList<ReservationBean> reservations = new ArrayList<ReservationBean>();
+            for (int i = 0; i < newStudentsID.size(); i++) {
+                if (stuID == newStudentsID.get(i)) {
+                    // set the result into the attribute	 
+                    request.setAttribute("reservations", reservations);
+                    request.setAttribute("allReservations", allReservations);
+                    request.setAttribute("newStudentsID", newStudentsID);
+                    RequestDispatcher rd;
+                    rd = getServletContext().getRequestDispatcher("/selectedStudentsReservations.jsp");
+                    rd.forward(request, response);
+                    return;
+                }
+            }
+            reservations = db.queryRservationsByID(stuID);
             for (int i = 0; i < reservations.size(); i++) {
                 ReservationBean b = reservations.get(i);
                 allReservations.add(b);
-                studentsID.add(b.getSubmitUserID());
             }
-            ArrayList<Integer> newStudentsID = removeDuplicates(studentsID);
+
+            studentsID.add(stuID);
+            newStudentsID = removeDuplicates(studentsID);
             // set the result into the attribute	 
             request.setAttribute("reservations", reservations);
             request.setAttribute("allReservations", allReservations);
@@ -97,11 +111,11 @@ public class AnalyticAndReportServlet extends HttpServlet {
             ArrayList<ReservationBean> reservations = db.queryEquipmentUtilization();
             // call the query db to get retrieve for all customer 
             ArrayList<EquipmentBean> equipments = db.queryAllEquipment();
-            for (int i = 0; i < reservations.size(); i++) {
-                double totalRate = db.queryAllPeriod();
-                double rate = (reservations.get(i).getPeriod() / totalRate) * 100.0;
-                reservations.get(i).setUtilizationRate(rate);
-            }
+//            for (int i = 0; i < reservations.size(); i++) {
+//                double totalRate = db.queryAllPeriod();
+//                double rate = (reservations.get(i).getPeriod() / totalRate) * 100.0;
+//                reservations.get(i).setUtilizationRate(rate);
+//            }
             for (int i = 0; i < equipments.size(); i++) {
                 for (int j = 0; j < reservations.size(); j++) {
                     double totalRate = db.queryAllPeriod();

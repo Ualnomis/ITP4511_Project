@@ -7,7 +7,7 @@
     <div class="">
         <div class="page-title">
             <h3>Equipment Management
-                <a href="roles.html" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-user-shield"></i> Add User</a>
+                <a href="editEquipment.jsp" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-user-shield"></i> Add Equipment</a>
             </h3>
         </div>
         <div class="box box-primary">
@@ -19,7 +19,7 @@
                             <th>Equipment Name</th>
                             <th>Description</th>
                             <th>Stock</th>
-                            <th>Status</th>
+<!--                            <th>Status</th>-->
                             <th>Visibility</th>
                             <th>Action</th>
                         </tr>
@@ -35,7 +35,7 @@
                                 out.println("<td>" + b.getEquipmentName() + "</td>");
                                 out.println("<td>" + b.getDescription() + "</td>");
                                 out.println("<td>" + b.getStock() + "</td>");
-                                out.println("<td>" + b.getStatus() + "</td>");
+//                                out.println("<td>" + b.getStatus() + "</td>");
                                 out.println("<td>");
                                 if (b.isVisibility()) {
                                     out.println("Visible");

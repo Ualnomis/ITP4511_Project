@@ -6,7 +6,7 @@
     <div class="">
         <div class="page-title">
             <h3>Account Management
-                <a href="roles.html" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-user-shield"></i> Add User</a>
+                <a href="editUser.jsp" class="btn btn-sm btn-outline-primary float-right"><i class="fas fa-user-shield"></i> Add User</a>
             </h3>
         </div>
         <div class="box box-primary">
@@ -41,7 +41,15 @@
                                 out.println("<td>");
                                 out.println("<a href=\"handleUser?action=getEditUser&id=" + ub.getUserID() + "\" class=\"btn btn-outline-info btn-rounded\"><i class=\"fas fa-pen\"></i></a>");
 //                                out.println("<a href=\"#" + modal + "\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-trash\"></i></a>");
-                                out.println("<button type=\"button\" class=\"btn btn-outline-danger btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-trash\"></i></button>");
+                                if (ub.isStatus()) {
+                                    out.println("<button type=\"button\" class=\"btn btn-outline-success btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-lock-open\"></i></button>");
+                                } else {
+                                    out.println("<form method=\"post\" action=\"handleUser\" style=\"display: inline-block; margin-block-end: 0em;\">");
+                                    out.println("<input type=\"hidden\" name=\"action\" value=\"unlock\" />");
+                                    out.println("<input type=\"hidden\" name=\"id\" value=" + ub.getUserID() + " />");
+                                    out.println("<button type=\"submit\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-lock\"></i></button>");
+                                    out.println("</form>");
+                                }
                                 out.println("</td>");
                                 out.println("</tr>");
 

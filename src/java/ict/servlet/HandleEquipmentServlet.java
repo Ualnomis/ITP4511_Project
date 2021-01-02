@@ -72,7 +72,7 @@ public class HandleEquipmentServlet extends HttpServlet {
                 status = "available";
             }
             
-            if (db.addEquipmentRecord(request.getParameter("eName"), status, request.getParameter("eDesc"), stock, Boolean.parseBoolean(request.getParameter("visibility")))) {
+            if (db.addEquipmentRecord(request.getParameter("eName"), "available", request.getParameter("eDesc"), stock, Boolean.parseBoolean(request.getParameter("visibility")))) {
                 response.sendRedirect("handleEquipment?action=list");
             } else {
                 response.sendRedirect("editEquipment.jsp?error=true");
@@ -103,7 +103,7 @@ public class HandleEquipmentServlet extends HttpServlet {
             bean.setEquipmentID(id);
             bean.setEquipmentName(eName);
             bean.setDescription(eDesc);
-            bean.setStatus(status);
+            bean.setStatus("available");
             bean.setStock(stock);
             bean.setVisibility(visibility);
             if (db.editEquipmentRecord(bean)) {
@@ -111,7 +111,6 @@ public class HandleEquipmentServlet extends HttpServlet {
             } else {
                 response.sendRedirect("loginError.jsp?" + eDesc);
             }
-            
         } else {
             PrintWriter out = response.getWriter();
             out.println("No such action!!!");

@@ -28,7 +28,17 @@ public class ReservationBean {
     private String approveUserName;
     private String submitUserName;
     private double utilizationRate;
+    private int borrowCount;
 
+    public int getBorrowCount() {
+        return borrowCount;
+    }
+
+    public void setBorrowCount(int borrowCount) {
+        this.borrowCount = borrowCount;
+    }
+    
+    
     public double getUtilizationRate() {
         return utilizationRate;
     }

@@ -100,24 +100,36 @@
                                 }
 
                         %>
-                    <div class="modal fade" id="<%= "disableModal" + b.getEquipmentID()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Borrow Equipment</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <form method="post" action="equipmentBorrow">
-                                    <div class="modal-body text-left">
-                                        <label>Qty:</label>
-                                        <input class="form-control" name="qty" type="number" value="1" min="1" max="" step="1" />
+                    <form method="post" action="equipmentBorrow" class="needs-validation" novalidate>
+                        <div class="modal fade" id="<%= "disableModal" + b.getEquipmentID()%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Borrow Equipment</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
 
-                                        <label>Start Date</label>
-                                        <input class="form-control" name="startDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
-                                        <label>End Date</label>
-                                        <input class="form-control" name="endDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
+                                    <div class="modal-body text-left">
+                                        <div class="form-group">
+                                            <label>Qty:</label>
+                                            <input class="form-control" name="qty" type="number" value="1" min="1" max="" step="1" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Start Date</label>
+                                            <input class="form-control" name="startDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
+                                            <div class="invalid-feedback">
+                                                Please input valid Start Date.
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>End Date</label>
+                                            <input class="form-control" name="endDate" type="date" value="<%= LocalDate.now()%>" min="<%= LocalDate.now()%>"/>
+                                            <div class="invalid-feedback">
+                                                Please input valid End Date.
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <input type="hidden" name="action" value="borrow" />
@@ -126,10 +138,10 @@
                                         <button type="submit" class="btn btn-primary">Confirm</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                     <%
 
                         }
@@ -140,4 +152,25 @@
         </div>
     </div>
 </div>
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+// Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+// Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 <%@include file="footer.jsp" %>

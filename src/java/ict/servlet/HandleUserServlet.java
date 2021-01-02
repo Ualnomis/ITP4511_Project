@@ -91,7 +91,7 @@ public class HandleUserServlet extends HttpServlet {
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             boolean status = Boolean.parseBoolean(request.getParameter("status"));
-            
+
             // call  editCustomer to update the database record
             UserBean ub = new UserBean();
             ub.setPassword(password);
@@ -105,6 +105,14 @@ public class HandleUserServlet extends HttpServlet {
             db.editUserRecord(ub);
             // redirect the result to “list” action again
             response.sendRedirect("handleUser?action=list");
+        } else if ("unlock".equalsIgnoreCase(action)) {
+            // get parameter, id, from the request
+            if (request.getParameter("id") != null) {
+                // call delete record method in the database
+                db.enableUser(Integer.parseInt(request.getParameter("id")));
+                // redirect the result to list action 
+                response.sendRedirect("handleUser?action=list");
+            }
         } else {
             PrintWriter out = response.getWriter();
             out.println("No such action!!!");

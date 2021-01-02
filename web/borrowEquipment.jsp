@@ -45,7 +45,7 @@
                                 out.println("</td>");
                                 out.println("<td>");
 //                              out.println("<a href=\"#" + modal + "\" class=\"btn btn-outline-danger btn-rounded\"><i class=\"fas fa-trash\"></i></a>");
-                                out.println("<button type=\"button\" class=\"btn btn-outline-danger btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-trash\">Request</i></button>");
+                                out.println("<button type=\"button\" class=\"btn btn-outline-primary btn-rounded\" data-toggle=\"modal\" data-target=\"#" + modal + "\"><i class=\"fas fa-hand-holding\">Request</i></button>");
                                 out.println("</td>");
                                 out.println("</tr>");
 
@@ -74,7 +74,7 @@
                                         <input type="hidden" name="equipmentID" value=<%= b.getEquipmentID()%> />
                                         <input type="hidden" name="userID" value=<%= user.getUserID()%> />
                                         <button type="submit" class="btn btn-primary">Confirm</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                                     </div>
                                 </form>
                             </div>

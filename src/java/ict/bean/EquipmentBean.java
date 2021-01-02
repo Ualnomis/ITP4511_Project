@@ -17,6 +17,15 @@ public class EquipmentBean {
     private String description;
     private boolean visibility;
     private double utilizationRate;
+    private int borrowCount;
+
+    public int getBorrowCount() {
+        return borrowCount;
+    }
+
+    public void setBorrowCount(int borrowCount) {
+        this.borrowCount = borrowCount;
+    }
 
     public double getUtilizationRate() {
         return utilizationRate;

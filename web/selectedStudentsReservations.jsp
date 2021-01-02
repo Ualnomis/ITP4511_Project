@@ -20,16 +20,26 @@
             <div class="box-body">
                 <form method="post" action="analyticAndReport">
                     <input type="hidden" name="action" value="searchStudentReservations" />
-                    Student Number: <input type="text" name="student-number" class="form-control" /> 
-                    <input type="submit" class="btn btn-primary" />
+                    <div class="form-group">
+                        Student Number: 
+                        <div class="input-group">
+                            <input type="text" name="student-number" class="form-control" /> 
+                            <span class="input-group-append">
+                                <!--                                <button type="button" class="btn btn-primary">Go!</button>-->
+                                <input type="submit" class="btn btn-primary" />
+                            </span>
+                        </div>
+                    </div>
                 </form>
 
                 Selected Students Number:
                 <%
                     for (int i = 0; i < newStudentsID.size(); i++) {
-                        out.println(newStudentsID.get(i));
+                        out.println("<span class=\"badge badge-primary\">"+newStudentsID.get(i) +"</span>");
                     }
                 %>
+                <br />
+                <a href="analyticAndReport?action=listSelectedStudents" class="btn btn-primary">Reset</a>
                 <hr />
                 <table width="100%" class="table table-hover" id="dataTables-example">
                     <thead>

@@ -1,4 +1,4 @@
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">
 
     <head>
@@ -11,6 +11,8 @@
         <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
         <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/vendor/datatables/datatables.min.css" rel="stylesheet">
+        <link href="assets/vendor/chartsjs/Chart.min.css" rel="stylesheet">
+        <link href="assets/vendor/flagiconcss/css/flag-icon.min.css" rel="stylesheet">
         <link href="assets/css/master.css" rel="stylesheet">
     </head>
     <jsp:useBean id="user" class="ict.bean.UserBean" scope="session" />
@@ -28,12 +30,12 @@
                 <% if ("Senior Technician".equals(user.getRole())) {%>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="main.jsp"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
 
                     <!--account management-->
                     <li>
-                        <a href="#account-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Account Management</a>
+                        <a href="#account-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-user"></i> Account Management</a>
                         <ul class="collapse list-unstyled" id="account-management">
                             <li>
                                 <a href="handleUser?action=list"><i class="fas fa-angle-right"></i>List All User</a>
@@ -45,7 +47,7 @@
                     </li>
                     <!--inventory management-->
                     <li>
-                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Inventory Management</a>
+                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-box"></i> Inventory Management</a>
                         <ul class="collapse list-unstyled" id="inventory-management">
                             <li>
                                 <a href="handleEquipment?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
@@ -57,7 +59,7 @@
                     </li>
                     <!--equipment borrowing-->
                     <li>
-                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Equipment Borrowing</a>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing</a>
                         <ul class="collapse list-unstyled" id="equipment-borrowing">
                             <li>
                                 <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
@@ -77,7 +79,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Analytic/Report</a>
+                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-chart-line"></i> Analytic/Report</a>
                         <ul class="collapse list-unstyled" id="analytic-report">
                             <li>
                                 <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>List Borrowing Records(Selected Students)</a>
@@ -90,18 +92,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+<!--                    <li>
                         <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
-                    </li>
+                    </li>-->
                 </ul>
                 <% } else if ("Technician".equals(user.getRole())) { %>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="main.jsp"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <!--inventory management-->
                     <li>
-                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Inventory Management</a>
+                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-box"></i> Inventory Management</a>
                         <ul class="collapse list-unstyled" id="inventory-management">
                             <li>
                                 <a href="handleEquipment?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
@@ -133,7 +135,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Analytic/Report</a>
+                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-chart-line"></i> Analytic/Report</a>
                         <ul class="collapse list-unstyled" id="analytic-report">
                             <li>
                                 <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>List Borrowing Records(Selected Students)</a>
@@ -143,14 +145,14 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+<!--                    <li>
                         <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
-                    </li>
+                    </li>-->
                 </ul>
                 <% } else if ("Student".equals(user.getRole())) { %>
                 <ul class="list-unstyled components text-secondary">
                     <li>
-                        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                        <a href="main.jsp"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <!--equipment borrowing-->
                     <li>
@@ -194,7 +196,7 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
-                                    <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span><%= user.getName() %></span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
+                                    <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span><%= user.getName()%></span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right nav-link-menu">
                                         <ul class="nav-list">
                                             <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>

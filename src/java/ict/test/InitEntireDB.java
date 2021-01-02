@@ -39,10 +39,5 @@ public class InitEntireDB {
         db.addReservationRecord(5, 2, 5, LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 31), null, null, 11, 2, "Rejected");
         db.addReservationRecord(1, 3, 5, LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 20), LocalDate.of(2020, 12, 31), LocalDate.of(2020, 12, 20), null, 11, 2, "Leasing");
         db.addReservationRecord(4, 1, 5, LocalDate.of(2020, 12, 15), LocalDate.of(2020, 12, 16), LocalDate.of(2020, 12, 18), LocalDate.of(2020, 12, 16), LocalDate.of(2020, 12, 18), 2, 2, "Completed");       
-        
-        // init reservation equipment
-        db.addReservationEquipment(1, 1, 5);
-        db.addReservationEquipment(2, 2, 10);
-        db.addReservationEquipment(3, 3, 30);
     }
 }

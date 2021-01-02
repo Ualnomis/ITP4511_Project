@@ -148,7 +148,17 @@ public class EquipmentBorrowController extends HttpServlet {
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/equipmentCheckIn.jsp");
             rd.forward(request, response);
-        }
+        }  else if ("checkoutOvderdue".equalsIgnoreCase(action)) {
+            int id = Integer.parseInt(request.getParameter("reservationID"));
+            int qty = Integer.parseInt(request.getParameter("qty"));
+            int equipmentID = Integer.parseInt(request.getParameter("equipmentID"));
+            if (db.checkInByID(id, equipmentID, qty)) {
+                // redirect the result to the listCustomers.jsp
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/equipmentBorrow?action=showCheckOut");
+                rd.forward(request, response);
+            }
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

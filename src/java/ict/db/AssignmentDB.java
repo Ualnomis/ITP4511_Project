@@ -710,7 +710,7 @@ public class AssignmentDB {
         ArrayList<EquipmentBean> arraylist = new ArrayList<EquipmentBean>();
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT * FROM Equipment";
+            String preQueryStatement = "SELECT * FROM Equipment WHERE status='available'";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();
@@ -747,7 +747,7 @@ public class AssignmentDB {
             String sql = "SET foreign_key_checks = 0";
             pStmnt = cnnct.prepareStatement(sql);
             pStmnt.executeUpdate();
-            String preQueryStatement = "DELETE FROM Equipment WHERE equipment_id=?";
+            String preQueryStatement = "UPDATE Equipment SET status='unavailable' WHERE equipment_id=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setInt(1, id);
             num = pStmnt.executeUpdate();
@@ -1428,7 +1428,7 @@ public class AssignmentDB {
         ArrayList<ReservationBean> arraylist = new ArrayList<ReservationBean>();
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT equipment_id, SUM(period) FROM Reservation WHERE NOT(status='Rejected') AND start_date>=? and due_date<=? GROUP BY equipment_id";
+            String preQueryStatement = "SELECT equipment_id, SUM(period) FROM Reservation WHERE NOT(status='Rejected') AND start_date>=? and due_date<? GROUP BY equipment_id";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setObject(1, Date.valueOf(startDate));
             pStmnt.setObject(2, Date.valueOf(endDate));
@@ -1481,5 +1481,293 @@ public class AssignmentDB {
             ex.printStackTrace();
         }
         return period;
+    }
+
+    // disable user record
+    public boolean enableUser(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int num = 0;
+        try {
+            cnnct = getConnection();
+            String sql = "SET foreign_key_checks = 0";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.executeUpdate();
+            String preQueryStatement = "UPDATE User SET status=true WHERE user_id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, id);
+            num = pStmnt.executeUpdate();
+            sql = "SET foreign_key_checks = 1";
+            pStmnt = cnnct.prepareStatement(sql);
+            pStmnt.executeUpdate();
+
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (pStmnt != null) {
+                try {
+                    pStmnt.close();
+                } catch (SQLException e) {
+                }
+            }
+            if (cnnct != null) {
+                try {
+                    cnnct.close();
+                } catch (SQLException sqlEx) {
+                }
+            }
+        }
+        return (num == 1) ? true : false;
+    }
+
+    public int countAllReservationsByUserID(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            pStmnt.setInt(1, id);
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public int countAllReservations() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public int countAllOverdueReservationsByUserID(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=? AND due_date<=? AND (NOT(status='Rejected' OR status='Completed'))";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            pStmnt.setInt(1, id);
+            pStmnt.setObject(2, Date.valueOf(LocalDate.now()));
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public int countAllApprovedReservationsByUserID(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=? AND status='Approved'";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            pStmnt.setInt(1, id);
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public int countAllLeasingReservationsByUserID(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=? AND status='Leasing'";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            pStmnt.setInt(1, id);
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public ArrayList<EquipmentBean> queryCountEquipmentBorrow() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        ArrayList<EquipmentBean> arraylist = new ArrayList<EquipmentBean>();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT e.equipment_id, e.equipment_name, COUNT(*) FROM reservation r, equipment e where e.equipment_id = r.equipment_id AND NOT(r.status='Rejected') GROUP BY e.equipment_id ORDER BY COUNT(*) DESC";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                EquipmentBean b = new EquipmentBean();
+                b.setEquipmentID(rs.getInt(1));
+                b.setEquipmentName(rs.getString(2));
+                b.setBorrowCount(rs.getInt(3));
+                arraylist.add(b);
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return arraylist;
+    }
+
+    public int countAllRequestingReservations() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE status='Requesting'";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public int countAllLeasingReservations() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE status='Leasing'";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
+    public int countAllOverdueReservations() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE due_date<? AND (NOT(status='Rejected' OR status='Completed'))";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            pStmnt.setObject(1, Date.valueOf(LocalDate.now()));
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
     }
 }
