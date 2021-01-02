@@ -1584,7 +1584,7 @@ public class AssignmentDB {
         int total = 0;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=? AND due_date<=? AND (NOT(status='Rejected' OR status='Completed' OR status='Requesting'))";
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=? AND due_date<? AND (NOT(status='Rejected' OR status='Completed' OR status='Requesting'))";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null;
             pStmnt.setInt(1, id);
