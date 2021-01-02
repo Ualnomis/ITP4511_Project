@@ -20,7 +20,7 @@
     <%!
         public AssignmentDB db = new AssignmentDB("jdbc:mysql://localhost:3306/itp4511_db", "root", "");
 
-                                                                                                                            %>
+                                                                                                                                            %>
     <%
         final int USERID = user.getUserID();
     %>
@@ -52,38 +52,20 @@
                     </li>
                     <!--inventory management-->
                     <li>
-                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-box"></i> Inventory Management</a>
+                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-box"></i> Inventory Management
+                            <%
+                                int sum = (db.countAllRequestingReservations() + db.countAllApprovedReservations() + db.countAllLeasingReservations());
+                                if (sum > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
+                                }
+                            %>
+                        </a>
                         <ul class="collapse list-unstyled" id="inventory-management">
                             <li>
                                 <a href="handleEquipment?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
                             </li>
                             <li>
                                 <a href="editEquipment.jsp"><i class="fas fa-angle-right"></i>Add Equipment</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--equipment borrowing-->
-                    <li>
-                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing
-                            <%
-                                int sum = (db.countAllOverdueReservationsByUserID(USERID) + db.countAllRequestingReservations() + db.countAllApprovedReservations() + db.countAllLeasingReservations());
-                                if (sum > 0) {
-                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
-                                }
-                            %>
-                        </a>
-                        <ul class="collapse list-unstyled" id="equipment-borrowing">
-                            <li>
-                                <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
-                            </li>
-                            <li>
-                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>Borrow Record
-                                    <%
-                                        if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
-                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
-                                        }
-                                    %>
-                                </a>
                             </li>
                             <li>
                                 <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request
@@ -108,6 +90,30 @@
                                     <%
                                         if (db.countAllLeasingReservations() > 0) {
                                             out.println("<span class=\"badge badge-danger\">" + db.countAllLeasingReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--equipment borrowing-->
+                    <li>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing
+                            <%
+                                if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
+                                }
+                            %>
+                        </a>
+                        <ul class="collapse list-unstyled" id="equipment-borrowing">
+                            <li>
+                                <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>Borrow Record
+                                    <%
+                                        if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
                                         }
                                     %>
                                 </a>
@@ -151,38 +157,20 @@
                     </li>
                     <!--inventory management-->
                     <li>
-                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-box"></i> Inventory Management</a>
+                        <a href="#inventory-management" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-box"></i> Inventory Management
+                            <%
+                                int sum = (db.countAllRequestingReservations() + db.countAllApprovedReservations() + db.countAllLeasingReservations());
+                                if (sum > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
+                                }
+                            %>
+                        </a>
                         <ul class="collapse list-unstyled" id="inventory-management">
                             <li>
                                 <a href="handleEquipment?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
                             </li>
                             <li>
                                 <a href="editEquipment.jsp"><i class="fas fa-angle-right"></i>Add Equipment</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!--equipment borrowing-->
-                    <li>
-                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing
-                            <%
-                                int sum = (db.countAllOverdueReservationsByUserID(USERID) + db.countAllRequestingReservations() + db.countAllApprovedReservations() + db.countAllLeasingReservations());
-                                if (sum > 0) {
-                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
-                                }
-                            %>
-                        </a>
-                        <ul class="collapse list-unstyled" id="equipment-borrowing">
-                            <li>
-                                <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
-                            </li>
-                            <li>
-                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>Borrow Record
-                                    <%
-                                        if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
-                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
-                                        }
-                                    %>
-                                </a>
                             </li>
                             <li>
                                 <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request
@@ -207,6 +195,30 @@
                                     <%
                                         if (db.countAllLeasingReservations() > 0) {
                                             out.println("<span class=\"badge badge-danger\">" + db.countAllLeasingReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--equipment borrowing-->
+                    <li>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing
+                            <%
+                                if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
+                                }
+                            %>
+                        </a>
+                        <ul class="collapse list-unstyled" id="equipment-borrowing">
+                            <li>
+                                <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
+                            </li>
+                            <li>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>Borrow Record
+                                    <%
+                                        if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
                                         }
                                     %>
                                 </a>
