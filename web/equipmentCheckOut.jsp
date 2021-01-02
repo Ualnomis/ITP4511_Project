@@ -92,7 +92,7 @@
                                 out.println("</td>");
 
                                 out.println("<td>");
-                                if ((LocalDate.now()).isAfter(b.getDueDate()) && ("Leasing".equalsIgnoreCase(b.getStatus()))) {
+                                if ((LocalDate.now()).isBefore(b.getDueDate()) && ("Approved".equalsIgnoreCase(b.getStatus()))) {
                                     out.println("<form action=\"equipmentBorrow\" method=\"post\" style=\"margin-block-end: 0em;\">");
                                     out.println("<input type=\"hidden\" name=\"action\" value=\"checkOut\" />");
                                     out.println("<input type=\"hidden\" name=\"qty\" value=\"" + b.getQty() + "\" />");
