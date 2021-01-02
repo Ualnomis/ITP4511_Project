@@ -4,10 +4,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="ict.db.AssignmentDB"%>
 <%@include file="header.jsp" %>
-<%!
-    public AssignmentDB db = new AssignmentDB("jdbc:mysql://localhost:3306/itp4511_db", "root", "");
 
-%>
 <div class="content">
     <div class="container">
         <div class="row">

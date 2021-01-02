@@ -113,6 +113,17 @@ public class HandleUserServlet extends HttpServlet {
                 // redirect the result to list action 
                 response.sendRedirect("handleUser?action=list");
             }
+        } else if ("editPersonal".equalsIgnoreCase(action)) {
+            if (request.getParameter("id") != null) {
+                // call query db to get retrieve for a customer with the given id
+                UserBean ub = db.queryUserByID(Integer.parseInt(request.getParameter("id")));
+                // set the customer as attribute in request scope
+                request.setAttribute("editUser", ub);
+
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/editPersonal.jsp");
+                rd.forward(request, response);
+            }
         } else {
             PrintWriter out = response.getWriter();
             out.println("No such action!!!");

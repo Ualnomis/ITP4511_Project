@@ -5,9 +5,6 @@
 <%@page import="ict.bean.UserBean"%>
 <%@page import="ict.db.AssignmentDB"%>
 <%@include file="header.jsp" %>
-<%! 
-    AssignmentDB db = new AssignmentDB("jdbc:mysql://localhost:3306/ITP4511_DB", "root", "");
-%>
 <%
     ArrayList<ReservationBean> reservations = (ArrayList<ReservationBean>) request.getAttribute("reservations");
     ArrayList<ReservationBean> allReservations = (ArrayList<ReservationBean>) request.getAttribute("allReservations");

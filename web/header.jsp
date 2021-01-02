@@ -1,6 +1,5 @@
+<%@page import="ict.db.AssignmentDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="/WEB-INF/tlds/footerTag.tld" prefix="footerTag"%>
-<%@ taglib uri="/WEB-INF/tlds/headerTag.tld" prefix="headerTag"%>
 <html lang="en">
 
     <head>
@@ -18,6 +17,10 @@
         <link href="assets/css/master.css" rel="stylesheet">
     </head>
     <jsp:useBean id="user" class="ict.bean.UserBean" scope="session" />
+    <%!
+        public AssignmentDB db = new AssignmentDB("jdbc:mysql://localhost:3306/itp4511_db", "root", "");
+
+                                                                                                                            %>
     <%
         final int USERID = user.getUserID();
     %>
@@ -61,44 +64,87 @@
                     </li>
                     <!--equipment borrowing-->
                     <li>
-                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing</a>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing
+                            <%
+                                int sum = (db.countAllOverdueReservationsByUserID(USERID) + db.countAllRequestingReservations() + db.countAllApprovedReservations() + db.countAllLeasingReservations());
+                                if (sum > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
+                                }
+                            %>
+                        </a>
                         <ul class="collapse list-unstyled" id="equipment-borrowing">
                             <li>
                                 <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>View Borrowing Record</a>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>Borrow Record
+                                    <%
+                                        if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request</a>
+                                <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request
+                                    <%
+                                        if (db.countAllRequestingReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllRequestingReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=showCheckOut"><i class="fas fa-angle-right"></i>Equipment Check-out</a>
+                                <a href="equipmentBorrow?action=showCheckOut"><i class="fas fa-angle-right"></i>Equipment Check-out
+                                    <%
+                                        if (db.countAllApprovedReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllApprovedReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=showCheckIn"><i class="fas fa-angle-right"></i>Equipment Check-in</a>
+                                <a href="equipmentBorrow?action=showCheckIn"><i class="fas fa-angle-right"></i>Equipment Check-in
+                                    <%
+                                        if (db.countAllLeasingReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllLeasingReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-chart-line"></i> Analytic/Report</a>
+                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-chart-line"></i> Analytic/Report
+                            <%
+                                if (db.countAllOverdueReservations() > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservations() + "</span>");
+                                }
+                            %>
+                        </a>
                         <ul class="collapse list-unstyled" id="analytic-report">
                             <li>
-                                <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>List Borrowing Records(Selected Students)</a>
+                                <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>Search Borrow Records</a>
                             </li>
                             <li>
                                 <a href="analyticAndReport?action=listAllEquipmentUtilizationRate"><i class="fas fa-angle-right"></i>Equipments Utilization Rate</a>
                             </li>
                             <li>
-                                <a href="analyticAndReport?action=listOverdue"><i class="fas fa-angle-right"></i>Overdue Reservations</a>
+                                <a href="analyticAndReport?action=listOverdue"><i class="fas fa-angle-right"></i>Overdue Reservations
+                                    <%
+                                        if (db.countAllOverdueReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                         </ul>
                     </li>
-                    <!--                    <li>
-                                            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
-                                        </li>-->
+                    <li>
+                        <a href="handleUser?action=editPersonal&id=<%= USERID%>"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
                 </ul>
-                <% } else if ("Technician".equals(user.getRole())) { %>
+                <% } else if ("Technician".equals(user.getRole())) {%>
                 <ul class="list-unstyled components text-secondary">
                     <li>
                         <a href="main.jsp"><i class="fas fa-home"></i> Dashboard</a>
@@ -117,59 +163,114 @@
                     </li>
                     <!--equipment borrowing-->
                     <li>
-                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Equipment Borrowing</a>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-hand-holding"></i> Equipment Borrowing
+                            <%
+                                int sum = (db.countAllOverdueReservationsByUserID(USERID) + db.countAllRequestingReservations() + db.countAllApprovedReservations() + db.countAllLeasingReservations());
+                                if (sum > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + sum + "</span>");
+                                }
+                            %>
+                        </a>
                         <ul class="collapse list-unstyled" id="equipment-borrowing">
                             <li>
                                 <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>View Borrowing Record</a>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>Borrow Record
+                                    <%
+                                        if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request</a>
+                                <a href="equipmentBorrow?action=borrowRequest"><i class="fas fa-angle-right"></i>Borrowing Request
+                                    <%
+                                        if (db.countAllRequestingReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllRequestingReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=showCheckOut"><i class="fas fa-angle-right"></i>Equipment Check-out</a>
+                                <a href="equipmentBorrow?action=showCheckOut"><i class="fas fa-angle-right"></i>Equipment Check-out
+                                    <%
+                                        if (db.countAllApprovedReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllApprovedReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=showCheckIn"><i class="fas fa-angle-right"></i>Equipment Check-in</a>
+                                <a href="equipmentBorrow?action=showCheckIn"><i class="fas fa-angle-right"></i>Equipment Check-in
+                                    <%
+                                        if (db.countAllLeasingReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllLeasingReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-chart-line"></i> Analytic/Report</a>
+                        <a href="#analytic-report" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-chart-line"></i> Analytic/Report
+                            <%
+                                if (db.countAllOverdueReservations() > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservations() + "</span>");
+                                }
+                            %>
+                        </a>
                         <ul class="collapse list-unstyled" id="analytic-report">
                             <li>
-                                <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>List Borrowing Records(Selected Students)</a>
+                                <a href="analyticAndReport?action=listSelectedStudents"><i class="fas fa-angle-right"></i>Search Borrow Records</a>
                             </li>
                             <li>
-                                <a href="analyticAndReport?action=listOverdue"><i class="fas fa-angle-right"></i>Overdue Reservations</a>
+                                <a href="analyticAndReport?action=listOverdue"><i class="fas fa-angle-right"></i>Overdue Reservations
+                                    <%
+                                        if (db.countAllOverdueReservations() > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservations() + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                         </ul>
                     </li>
-                    <!--                    <li>
-                                            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
-                                        </li>-->
+                    <li>
+                        <a href="handleUser?action=editPersonal&id=<%= USERID%>"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
                 </ul>
-                <% } else if ("Student".equals(user.getRole())) { %>
+                <% } else if ("Student".equals(user.getRole())) {%>
                 <ul class="list-unstyled components text-secondary">
                     <li>
                         <a href="main.jsp"><i class="fas fa-home"></i> Dashboard</a>
                     </li>
                     <!--equipment borrowing-->
                     <li>
-                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Equipment Borrowing</a>
+                        <a href="#equipment-borrowing" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle no-caret-down"><i class="fas fa-layer-group"></i> Equipment Borrowing
+                            <%
+                                if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                    out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
+                                }
+                            %>
+                        </a>
                         <ul class="collapse list-unstyled" id="equipment-borrowing">
                             <li>
                                 <a href="equipmentBorrow?action=list"><i class="fas fa-angle-right"></i>List All Equipment</a>
                             </li>
                             <li>
-                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>View Borrowing Record</a>
+                                <a href="equipmentBorrow?action=showBorrowRecord"><i class="fas fa-angle-right"></i>Borrow Record
+                                    <%
+                                        if (db.countAllOverdueReservationsByUserID(USERID) > 0) {
+                                            out.println("<span class=\"badge badge-danger\">" + db.countAllOverdueReservationsByUserID(USERID) + "</span>");
+                                        }
+                                    %>
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+                        <a href="handleUser?action=editPersonal&id=<%= USERID%>"><i class="fas fa-cog"></i>Settings</a>
                     </li>
                 </ul>
                 <% }%>
@@ -182,7 +283,7 @@
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
-                                    <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span><%= user.getName()%></span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
+                                    <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span><%= user.getName() + " (ID: " + user.getUserID() + ")"%></span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right nav-link-menu">
                                         <ul class="nav-list">
                                             <!--                                            <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>

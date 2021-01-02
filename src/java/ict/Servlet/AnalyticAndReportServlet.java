@@ -54,7 +54,7 @@ public class AnalyticAndReportServlet extends HttpServlet {
 
         if ("listOverdue".equalsIgnoreCase(action)) {
             // call the query db to get retrieve for all customer 
-            ArrayList<ReservationBean> reservations = db.queryLeasingReservation();
+            ArrayList<ReservationBean> reservations = db.queryOverdueReservation();
             // set the result into the attribute	 
             request.setAttribute("reservations", reservations);
             // redirect the result to the borrowRequest.jsp
@@ -63,13 +63,13 @@ public class AnalyticAndReportServlet extends HttpServlet {
             rd.forward(request, response);
         } else if ("listSelectedStudents".equalsIgnoreCase(action)) {
             // call the query db to get retrieve for all customer 
-            ArrayList<ReservationBean> reservations = new ArrayList<ReservationBean>();
+            ArrayList<ReservationBean> reservations = db.queryAllReservation();
             allReservations = new ArrayList<ReservationBean>();
             studentsID = new ArrayList<Integer>();
             newStudentsID = new ArrayList<Integer>();
             // set the result into the attribute	 
             request.setAttribute("reservations", reservations);
-            request.setAttribute("allReservations", allReservations);
+            request.setAttribute("allReservations", reservations);
             request.setAttribute("newStudentsID", newStudentsID);
             // redirect the result to the borrowRequest.jsp
             RequestDispatcher rd;
@@ -111,11 +111,6 @@ public class AnalyticAndReportServlet extends HttpServlet {
             ArrayList<ReservationBean> reservations = db.queryEquipmentUtilization();
             // call the query db to get retrieve for all customer 
             ArrayList<EquipmentBean> equipments = db.queryAllEquipment();
-//            for (int i = 0; i < reservations.size(); i++) {
-//                double totalRate = db.queryAllPeriod();
-//                double rate = (reservations.get(i).getPeriod() / totalRate) * 100.0;
-//                reservations.get(i).setUtilizationRate(rate);
-//            }
             for (int i = 0; i < equipments.size(); i++) {
                 for (int j = 0; j < reservations.size(); j++) {
                     double totalRate = db.queryAllPeriod();

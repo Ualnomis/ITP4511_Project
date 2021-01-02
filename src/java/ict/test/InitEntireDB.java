@@ -15,15 +15,15 @@ public class InitEntireDB {
         db.createTable();
         
         // init user
-        db.addUserRecord("stu1@vtc.hk", "Student1", "123", "M", "12345678", "Student", true);
+        db.addUserRecord("stu1@vtc.hk", "Peter", "123", "M", "12345678", "Student", true);
         db.addUserRecord("tec@vtc.hk", "Technician1", "123", "F", "12345678", "Technician", true);
         db.addUserRecord("stec@vtc.hk", "Stec1", "123", "M", "12345678", "Senior Technician", true);
-        db.addUserRecord("stu2@vtc.hk", "Student2", "123", "F", "12345678", "Student", true);
-        db.addUserRecord("stu3@vtc.hk", "Student3", "123", "M", "12345678", "Student", true);
+        db.addUserRecord("stu2@vtc.hk", "Alan", "123", "F", "12345678", "Student", true);
+        db.addUserRecord("stu3@vtc.hk", "Simon", "123", "M", "12345678", "Student", true);
         
         // init equipment
-        db.addEquipmentRecord("Wired Mouse", "available", "good", 20, true);
-        db.addEquipmentRecord("Wireless Mouse", "available", "good", 30, true);
+        db.addEquipmentRecord("Wired Mouse", "available", "good mouse", 20, true);
+        db.addEquipmentRecord("Wireless Mouse", "available", "test", 30, true);
         db.addEquipmentRecord("Keyboard", "available", "good", 40, true);
         db.addEquipmentRecord("Notebook", "available", "good", 2, true);
         db.addEquipmentRecord("Mac Book Pro", "unavailable", "good", 0, false);

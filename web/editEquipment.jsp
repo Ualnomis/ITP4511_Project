@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="value="<%= ("add".equals(type)) ? "Add" : "Edit" %>"" class="btn btn-primary" />
+                                    <input type="submit" value="<%= ("add".equals(type)) ? "Add" : "Edit" %>" class="btn btn-primary" />
                                     <a href="handleEquipment?action=list" class="btn btn-danger">Cancel</a>
                                 </div>
                             </form>

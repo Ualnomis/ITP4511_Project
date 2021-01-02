@@ -1584,7 +1584,7 @@ public class AssignmentDB {
         int total = 0;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=? AND due_date<=? AND (NOT(status='Rejected' OR status='Completed'))";
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE submit_user_id=? AND due_date<=? AND (NOT(status='Rejected' OR status='Completed' OR status='Requesting'))";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null;
             pStmnt.setInt(1, id);
@@ -1718,6 +1718,32 @@ public class AssignmentDB {
         return total;
     }
 
+    public int countAllApprovedReservations() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int total = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE status='Approved'";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return total;
+    }
+
     public int countAllLeasingReservations() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -1750,7 +1776,7 @@ public class AssignmentDB {
         int total = 0;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE due_date<? AND (NOT(status='Rejected' OR status='Completed'))";
+            String preQueryStatement = "SELECT COUNT(*) FROM Reservation WHERE due_date<? AND (NOT(status='Rejected' OR status='Completed' OR status='Requesting'))";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null;
             pStmnt.setObject(1, Date.valueOf(LocalDate.now()));
@@ -1769,5 +1795,62 @@ public class AssignmentDB {
             ex.printStackTrace();
         }
         return total;
+    }
+    
+        public ArrayList<ReservationBean> queryOverdueReservation() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        ArrayList<ReservationBean> arraylist = new ArrayList<ReservationBean>();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM Reservation WHERE due_date<? AND (NOT(status='Rejected' OR status='Completed' OR status='Requesting'))";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setObject(1, Date.valueOf(LocalDate.now()));
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                ReservationBean b = new ReservationBean();
+                b.setReservationID(rs.getInt(1));
+                b.setSubmitUserID(rs.getInt(2));
+                b.setEquipmentID(rs.getInt(3));
+                b.setQty(rs.getInt(4));
+                b.setRequestDate(LocalDate.parse(rs.getString(5)));
+                b.setStartDate(LocalDate.parse(rs.getString(6)));
+                b.setDueDate(LocalDate.parse(rs.getString(7)));
+                if (rs.getString(8) != null) {
+                    b.setCheckOutDate(LocalDate.parse(rs.getString(8)));
+                } else {
+                    b.setCheckOutDate(null);
+                }
+                if (rs.getString(9) != null) {
+                    b.setCheckInDate(LocalDate.parse(rs.getString(9)));
+                } else {
+                    b.setCheckInDate(null);
+                }
+                b.setPeriod(rs.getInt(10));
+                b.setStatus(rs.getString(11));
+                if (rs.getString(12) != null) {
+                    b.setApproveUserID(Integer.parseInt(rs.getString(12)));
+                } else {
+                    b.setApproveUserID(0);
+                }
+                b.setSubmitUserName(queryUserNameByID(rs.getInt(2)));
+                b.setApproveUserName(queryUserNameByID(rs.getInt(12)));
+                b.setEquipmentName(queryEquipmentNameByID(rs.getInt(3)));
+                arraylist.add(b);
+            }
+
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return arraylist;
     }
 }
