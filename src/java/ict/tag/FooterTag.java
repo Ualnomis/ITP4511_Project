@@ -7,7 +7,7 @@ package ict.tag;
 
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
+import javax.servlet.jsp.tagext.*;
 
 /**
  *

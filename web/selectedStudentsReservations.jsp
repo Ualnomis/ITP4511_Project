@@ -3,12 +3,18 @@
 <%@page import="ict.bean.EquipmentBean"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="ict.bean.UserBean"%>
+<%@page import="ict.db.AssignmentDB"%>
 <%@include file="header.jsp" %>
+<%! 
+    AssignmentDB db = new AssignmentDB("jdbc:mysql://localhost:3306/ITP4511_DB", "root", "");
+%>
 <%
     ArrayList<ReservationBean> reservations = (ArrayList<ReservationBean>) request.getAttribute("reservations");
     ArrayList<ReservationBean> allReservations = (ArrayList<ReservationBean>) request.getAttribute("allReservations");
     ArrayList<Integer> newStudentsID = (ArrayList<Integer>) request.getAttribute("newStudentsID");
+    
 %>
+
 <div class="content">
     <div>
         <div class="page-title">
@@ -21,7 +27,7 @@
                 <form method="post" action="analyticAndReport">
                     <input type="hidden" name="action" value="searchStudentReservations" />
                     <div class="form-group">
-                        Student Number: 
+                        Student UID: 
                         <div class="input-group">
                             <input type="text" name="student-number" class="form-control" /> 
                             <span class="input-group-append">
@@ -32,10 +38,10 @@
                     </div>
                 </form>
 
-                Selected Students Number:
+                Selected Students:
                 <%
                     for (int i = 0; i < newStudentsID.size(); i++) {
-                        out.println("<span class=\"badge badge-primary\">"+newStudentsID.get(i) +"</span>");
+                        out.println("<span class=\"badge badge-primary\">" + db.queryUserNameByID(newStudentsID.get(i))+ " (UID: " + newStudentsID.get(i) +")</span>");
                     }
                 %>
                 <br />
@@ -70,7 +76,7 @@
                                 }
                                 out.println(">");
                                 out.println("<td>" + b.getReservationID() + "</td>");
-                                out.println("<td>" + b.getSubmitUserName() + "</td>");
+                                out.println("<td>" + b.getSubmitUserName() + " (UID: " + b.getSubmitUserID() + ")</td>");
                                 out.println("<td>" + b.getEquipmentName() + "</td>");
                                 out.println("<td>" + b.getQty() + "</td>");
                                 out.println("<td>");

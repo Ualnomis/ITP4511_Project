@@ -43,7 +43,7 @@
                                 }
                                 out.println(">");
                                 out.println("<td>" + b.getReservationID() + "</td>");
-                                out.println("<td>" + b.getSubmitUserName() + "</td>");
+                                out.println("<td>" + b.getSubmitUserName() + " (UID: " + b.getSubmitUserID() + ")</td>");
                                 out.println("<td>" + b.getEquipmentName() + "</td>");
                                 out.println("<td>" + b.getQty() + "</td>");
                                 out.println("<td>");

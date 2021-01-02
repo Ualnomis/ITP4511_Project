@@ -1,3 +1,6 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="/WEB-INF/tlds/footerTag.tld" prefix="footerTag"%>
+<%@ taglib uri="/WEB-INF/tlds/headerTag.tld" prefix="headerTag"%>
 <!doctype html>
 <html lang="en">
 
@@ -5,7 +8,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Login | Bootstrap Simple Admin Template</title>
+        <title>Login | IVEPT</title>
         <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/auth.css" rel="stylesheet">
     </head>
@@ -15,9 +18,7 @@
             <div class="auth-content">
                 <div class="card">
                     <div class="card-body text-center">
-                        <div class="mb-4">
-                            <img src="assets/img/logo_vtc.svg" alt="bootraper logo" class="app-logo" style="width: 210px; height: 42px;">
-                        </div>
+                        <headerTag:headerIcon />
                         <h6 class="mb-4 text-muted">
                             Login to your account<br />
                         </h6>
@@ -48,13 +49,12 @@
                             <button class="btn btn-primary shadow-2 mb-4">Login</button>
                         </form>
                         <p class="mb-2 text-muted">Forgot password? <a href="forgot-password.html">Reset</a></p>
-<!--                        <p class="mb-0 text-muted">Don't have account yet? <a href="signup.html">Signup</a></p>-->
+                        <!--                        <p class="mb-0 text-muted">Don't have account yet? <a href="signup.html">Signup</a></p>-->
                     </div>
                 </div>
             </div>
         </div>
-        <script src="assets/vendor/jquery/jquery.min.js"></script>
-        <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <footerTag:footer />
     </body>
 
 </html>

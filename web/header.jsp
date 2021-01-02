@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="/WEB-INF/footerTag.tld" prefix="footerTag"%>
+<%@ taglib uri="/WEB-INF/tlds/footerTag.tld" prefix="footerTag"%>
+<%@ taglib uri="/WEB-INF/tlds/headerTag.tld" prefix="headerTag"%>
 <html lang="en">
 
     <head>
@@ -93,9 +94,9 @@
                             </li>
                         </ul>
                     </li>
-<!--                    <li>
-                        <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
-                    </li>-->
+                    <!--                    <li>
+                                            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+                                        </li>-->
                 </ul>
                 <% } else if ("Technician".equals(user.getRole())) { %>
                 <ul class="list-unstyled components text-secondary">
@@ -146,9 +147,9 @@
                             </li>
                         </ul>
                     </li>
-<!--                    <li>
-                        <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
-                    </li>-->
+                    <!--                    <li>
+                                            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+                                        </li>-->
                 </ul>
                 <% } else if ("Student".equals(user.getRole())) { %>
                 <ul class="list-unstyled components text-secondary">
@@ -181,28 +182,12 @@
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <div class="nav-dropdown">
-                                    <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-link"></i> <span>Quick Access</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-right nav-link-menu">
-                                        <ul class="nav-list">
-                                            <li><a href="" class="dropdown-item"><i class="fas fa-list"></i> Access Logs</a></li>
-                                            <div class="dropdown-divider"></div>
-                                            <li><a href="" class="dropdown-item"><i class="fas fa-database"></i> Back ups</a></li>
-                                            <div class="dropdown-divider"></div>
-                                            <li><a href="" class="dropdown-item"><i class="fas fa-cloud-download-alt"></i> Updates</a></li>
-                                            <div class="dropdown-divider"></div>
-                                            <li><a href="" class="dropdown-item"><i class="fas fa-user-shield"></i> Roles</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <div class="nav-dropdown">
                                     <a href="" class="nav-item nav-link dropdown-toggle text-secondary" data-toggle="dropdown"><i class="fas fa-user"></i> <span><%= user.getName()%></span> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right nav-link-menu">
                                         <ul class="nav-list">
-                                            <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
-                                            <li><a href="" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a></li>
-                                            <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a></li>
+                                            <!--                                            <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
+                                                                                        <li><a href="" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a></li>
+                                                                                        <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a></li>-->
                                             <div class="dropdown-divider"></div>
                                             <li>
                                                 <form id="logout" method="post" action="login">

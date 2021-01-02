@@ -128,7 +128,7 @@
             <div class="col-md-12">
             </div>
             <!--Top borrow equipment-->
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="content">
                         <div class="head">
@@ -274,7 +274,7 @@
             <div class="col-md-12">
             </div>
             <!--Top borrow equipment-->
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="content">
                         <div class="head">
