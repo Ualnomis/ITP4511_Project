@@ -5,12 +5,14 @@
         <group>
             <file>file:/E:/git_repo/ITP4511_Project/web/login.jsp</file>
             <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/db/AssignmentDB.java</file>
-            <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/test/InitEntireDB.java</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/editEquipment.jsp</file>
             <file>file:/E:/git_repo/ITP4511_Project/src/java/ict/tag/HeaderTag.java</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/editPersonal.jsp</file>
             <file>file:/E:/git_repo/ITP4511_Project/web/selectedStudentsReservations.jsp</file>
             <file>file:/E:/git_repo/ITP4511_Project/web/header.jsp</file>
             <file>file:/E:/git_repo/ITP4511_Project/web/equipmentCheckOut.jsp</file>
             <file>file:/E:/git_repo/ITP4511_Project/web/overdueReservation.jsp</file>
+            <file>file:/E:/git_repo/ITP4511_Project/web/equipmentUtilizationRate.jsp</file>
         </group>
     </open-files>
 </project-private>

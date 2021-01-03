@@ -26,7 +26,7 @@
                     <input type="date" name="startDate" class="form-control" required />
                     End Date:
                     <input type="date" name="endDate" class="form-control" required />
-                    <input type="submit" class="btn btn-primary" />
+                    <input type="submit" value="Search" class="btn btn-primary" />
                 </form>
                 <hr />
                 <table width="100%" class="table table-hover" id="dataTables-example">

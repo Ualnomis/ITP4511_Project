@@ -29,7 +29,7 @@
                             <input type="text" name="student-number" class="form-control" required pattern="[0-9.]+" maxlength="9" /> 
                             <span class="input-group-append">
                                 <!--                                <button type="button" class="btn btn-primary">Go!</button>-->
-                                <input type="submit" class="btn btn-primary" />
+                                <input type="submit" value="Search" class="btn btn-primary" />
                             </span>
                         </div>
                     </div>
