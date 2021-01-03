@@ -46,7 +46,7 @@
                                 <input type="hidden" name="id" value="<%=id%>" />
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" name="email" id="email" placeholder="Email Address" class="form-control" required value="<%=email%>" <% if ("edit".equals(type)) {
+                                    <input type="email" name="email" id="email" maxlength="50" placeholder="Email Address" class="form-control" required value="<%=email%>" <% if ("edit".equals(type)) {
                                             out.print("disabled");
                                         }%> />
                                     <div class="invalid-feedback">
@@ -55,14 +55,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" name="password" id="password" placeholder="Password" class="form-control" required value="<%=password%>">
+                                    <input type="password" name="password" maxlength="16" id="password" placeholder="Password" class="form-control" required value="<%=password%>">
                                     <div class="invalid-feedback">
                                         Please input valid password.
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" id="name" placeholder="Name" class="form-control" required="" value="<%=name%>">
+                                    <input type="text" name="name" id="name" maxlength="50" placeholder="Name" class="form-control" required="" value="<%=name%>">
                                     <div class="invalid-feedback">
                                         Please input valid name.
                                     </div>

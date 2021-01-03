@@ -52,21 +52,21 @@
                                 <% }%>
                                 <div class="form-group">
                                     <label for="eName" class="form-label">Equipment Name</label>
-                                    <input type="text" class="form-control" id="eName" name="eName" value="<%= name%>" required />
+                                    <input type="text" class="form-control" maxlength="40"  id="eName" name="eName" value="<%= name%>" required />
                                     <div class="invalid-feedback">
                                         Please input valid equipment name.
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="eDesc" class="form-label">Equipment Description</label>
-                                    <input type="text" class="form-control" id="eDesc" name="eDesc" value="<%= desc%>" required />
+                                    <input type="text" class="form-control" maxlength="500"  id="eDesc" name="eDesc" value="<%= desc%>" required />
                                     <div class="invalid-feedback">
                                         Please input valid equipment description.
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="stock" class="form-label">Equipment Stock</label>
-                                    <input type="number" min="0" step="1" class="form-control" id="stock" name="stock" value="<%= stock%>"/>
+                                    <input type="number" min="0" step="1" maxlength="8"  class="form-control" id="stock" name="stock" value="<%= stock%>"/>
                                     <div class="invalid-feedback">
                                         Please input valid equipment stock.
                                     </div>

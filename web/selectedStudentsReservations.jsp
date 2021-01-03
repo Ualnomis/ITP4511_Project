@@ -9,7 +9,7 @@
     ArrayList<ReservationBean> reservations = (ArrayList<ReservationBean>) request.getAttribute("reservations");
     ArrayList<ReservationBean> allReservations = (ArrayList<ReservationBean>) request.getAttribute("allReservations");
     ArrayList<Integer> newStudentsID = (ArrayList<Integer>) request.getAttribute("newStudentsID");
-    
+
 %>
 
 <div class="content">
@@ -26,7 +26,7 @@
                     <div class="form-group">
                         Student UID: 
                         <div class="input-group">
-                            <input type="text" name="student-number" class="form-control" /> 
+                            <input type="text" name="student-number" class="form-control" required pattern="[0-9.]+" maxlength="9" /> 
                             <span class="input-group-append">
                                 <!--                                <button type="button" class="btn btn-primary">Go!</button>-->
                                 <input type="submit" class="btn btn-primary" />
@@ -36,9 +36,11 @@
                 </form>
 
                 Selected Students:
-                <%
+                <%                    
                     for (int i = 0; i < newStudentsID.size(); i++) {
-                        out.println("<span class=\"badge badge-primary\">" + db.queryUserNameByID(newStudentsID.get(i))+ " (ID: " + newStudentsID.get(i) +")</span>");
+                        if (db.queryUserNameByID(newStudentsID.get(i)) != null) {
+                            out.println("<span class=\"badge badge-primary\">" + db.queryUserNameByID(newStudentsID.get(i)) + " (ID: " + newStudentsID.get(i) + ")</span>");
+                        }
                     }
                 %>
                 <br />

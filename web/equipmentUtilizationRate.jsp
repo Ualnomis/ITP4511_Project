@@ -21,11 +21,11 @@
                 <form method="post" action="analyticAndReport">
                     <input type="hidden" name="action" value="searchEquipmentUtilizationRate" />
                     Equipment ID: 
-                    <input type="text" name="equipmentID" class="form-control" /> 
+                    <input type="text" name="equipmentID" class="form-control" required required pattern="[0-9.]+" maxlength="9"  /> 
                     Start Date:
-                    <input type="date" name="startDate" class="form-control" />
+                    <input type="date" name="startDate" class="form-control" required />
                     End Date:
-                    <input type="date" name="endDate" class="form-control" />
+                    <input type="date" name="endDate" class="form-control" required />
                     <input type="submit" class="btn btn-primary" />
                 </form>
                 <hr />
@@ -43,21 +43,23 @@
                         <%
                             for (int i = 0; i < equipments.size(); i++) {
                                 EquipmentBean b = equipments.get(i);
-                                out.println("<tr ");
-                                out.println(">");
-                                out.println("<td>" + b.getEquipmentID() + "</td>");
-                                out.println("<td>" + b.getEquipmentName() + "</td>");
-                                out.println("<td>" + b.getUtilizationRate() + "%</td>");
-                                out.println("<td>");
-                                if (startDate != null && endDate != null) {
-                                    out.println(startDate);
-                                    out.println("-");
-                                    out.println(endDate);
-                                } else {
-                                    out.println("All Period");
+                                if (b != null) {
+                                    out.println("<tr ");
+                                    out.println(">");
+                                    out.println("<td>" + b.getEquipmentID() + "</td>");
+                                    out.println("<td>" + b.getEquipmentName() + "</td>");
+                                    out.println("<td>" + b.getUtilizationRate() + "%</td>");
+                                    out.println("<td>");
+                                    if (startDate != null && endDate != null) {
+                                        out.println(startDate);
+                                        out.println("-");
+                                        out.println(endDate);
+                                    } else {
+                                        out.println("All Period");
+                                    }
+                                    out.println("</td>");
+                                    out.println("</tr>");
                                 }
-                                out.println("</td>");
-                                out.println("</tr>");
                             }
                         %>
                     </tbody>
